@@ -25,8 +25,6 @@ const data = [
         nombre: "Promesa de Fe",
         activo: false
     }
-
-
 ]
 
 export const TipoIngreso = () => {

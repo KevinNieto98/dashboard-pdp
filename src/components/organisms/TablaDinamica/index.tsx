@@ -8,8 +8,16 @@ export const TablaDinamica = ({ data }: any ) =>  {
         return <div>No data available</div>;
     }
 
-    const headers = [...Object.keys(data[0]).map(key => key.toUpperCase()), 'ACCIONES'];
+    const headers = [...Object.keys(data[0]).map(key => key.toUpperCase())];
     console.log('headers', headers);
+
+    const newData = data.map((obj:any) => {
+        return {
+            0: obj.id,
+            1: obj.nombre,
+            2: obj.activo
+        };
+    });
 
     return (
         <Table aria-label="Example table with custom cells">
@@ -19,42 +27,18 @@ export const TablaDinamica = ({ data }: any ) =>  {
                 ))}
             </TableHeader>
             <TableBody>
-                {data.map((item: any, index: any) => (
-                    <TableRow key={index}>
-                        <TableCell>
-                            <div>
-                                <p>{item.id}</p>
-                            </div>
-                        </TableCell>
-                        <TableCell>
-                            <div>
-                                <p>{item.nombre}</p>
-                            </div>
-                        </TableCell>
-                        <TableCell>
-                            <div>
-                                <Chip className="capitalize" color={item.activo ? "success" : "danger"} size="sm" variant="flat">
-                                    {item.activo ? "Active" : "Inactivo"}
-                                </Chip>
-                            </div>
-                        </TableCell>
-                        <TableCell>
-                            <div className="relative flex gap-2">
-                                <Tooltip content="Edit user">
-                                    <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                        <TbEdit />
-                                    </span>
-                                </Tooltip>
-                            </div>
-                        </TableCell>
+                {newData.map((item: any) => (
+                    <TableRow key={item[0]}>
+                        {Object.values(item).map((value, index) => (
+                            <TableCell key={index}>
+                                <div>
+                                    <p>{String(value)}</p>
+                                </div>
+                             </TableCell>
+                        ))}
+                        
                     </TableRow>
                 ))} 
-                 {/* <TableRow >
-                    <TableCell>1</TableCell>
-                    <TableCell>2</TableCell>
-                    <TableCell>3</TableCell>
-                    <TableCell>5</TableCell>
-                 </TableRow> */}
             </TableBody>
         </Table>
     );
