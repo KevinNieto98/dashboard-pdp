@@ -1,7 +1,14 @@
 'use client'
 
+import { CeldaDinamica } from "@/components/atoms";
 import { Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
 import { TbEdit } from "react-icons/tb";
+
+interface MyObject {
+    [key: number]: any;
+  }
+  
+
 
 export const TablaDinamica = ({ data }: any ) =>  {
     if (!data || data.length === 0) {
@@ -12,11 +19,11 @@ export const TablaDinamica = ({ data }: any ) =>  {
     console.log('headers', headers);
 
     const newData = data.map((obj:any) => {
-        return {
-            0: obj.id,
-            1: obj.nombre,
-            2: obj.activo
-        };
+        let newObj: MyObject = {};
+        Object.keys(obj).forEach((key, index) => {
+            newObj[index] = obj[key];
+        });
+        return newObj;
     });
 
     return (

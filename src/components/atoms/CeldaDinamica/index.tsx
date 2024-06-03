@@ -2,18 +2,17 @@
 
 import { Chip, TableCell } from "@nextui-org/react";
 interface CeldaProps {
-    index: number;
-    value: any;
+    value: string | number | boolean | null | any;
 }
 
 
-export const CeldaDinamica = ({index, value}:CeldaProps ) =>  {
+export const CeldaDinamica = ({ value }: CeldaProps) => {
     return (
         <TableCell >
-        <div>
-                <p>{value }</p>
-            
-        </div>
-    </TableCell>
+            <div>
+                <p>{value}</p>
+
+            </div>
+        </TableCell>
     );
 }

@@ -8,23 +8,19 @@ const data = [
     {
         id: 1,
         nombre: "Diezmo",
-        activo: true
+        activo: true,
+        descripcion: 'Descripcion de diezmo',
+        usuarioIngresa: 'Kevin '
     },
     {
         id: 2,
         nombre: "Ofrenda",
-        activo: false
+        activo: false,
+        descripcion: 'Descripcion de Ofrenda',
+        usuarioIngresa: 'Kevin '
+
     },
-    {
-        id: 3,
-        nombre: "Primicia",
-        activo: true
-    },
-    {
-        id: 4,
-        nombre: "Promesa de Fe",
-        activo: false
-    }
+
 ]
 
 export const TipoIngreso = () => {
