@@ -40,7 +40,7 @@ export const TipoIngreso = () => {
             </Text>
 
 
-            <TablaDinamica data={data}/>
+            <TablaDinamica dinamica={true} data={data}/>
 
         </div>
     );

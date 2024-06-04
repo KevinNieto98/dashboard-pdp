@@ -1,30 +1,46 @@
 'use client'
 
-import { CeldaDinamica } from "@/components/atoms";
-import { Chip, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
-import { TbEdit } from "react-icons/tb";
+import {  CeldaDinamica } from "@/components";
+import {  Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 
 interface MyObject {
     [key: number]: any;
-  }
-  
+}
+
+interface TablaDinamica {
+    data : any[],
+   dinamica :boolean
+}
 
 
-export const TablaDinamica = ({ data }: any ) =>  {
+export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
+    let headers: string[] = [];
+    let newData: any[] = [];
     if (!data || data.length === 0) {
         return <div>No data available</div>;
     }
+    if (dinamica) {
+        headers = [...Object.keys(data[0]).map(key => key.toUpperCase()), 'ACCIONES'];
 
-    const headers = [...Object.keys(data[0]).map(key => key.toUpperCase())];
-    console.log('headers', headers);
-
-    const newData = data.map((obj:any) => {
-        let newObj: MyObject = {};
-        Object.keys(obj).forEach((key, index) => {
-            newObj[index] = obj[key];
+        newData = data.map((obj: any) => {
+            let newObj: MyObject = {};
+            Object.keys(obj).forEach((key, index) => {
+                newObj[index] = obj[key];
+            });
+            newObj[Object.keys(obj).length] = 'accion';
+            return newObj;
         });
-        return newObj;
-    });
+    }else{
+        headers = [...Object.keys(data[0]).map(key => key.toUpperCase())];
+
+        newData = data.map((obj: any) => {
+            let newObj: MyObject = {};
+            Object.keys(obj).forEach((key, index) => {
+                newObj[index] = obj[key];
+            });
+            return newObj;
+        });
+    }
 
     return (
         <Table aria-label="Example table with custom cells">
@@ -38,14 +54,12 @@ export const TablaDinamica = ({ data }: any ) =>  {
                     <TableRow key={item[0]}>
                         {Object.values(item).map((value, index) => (
                             <TableCell key={index}>
-                                <div>
-                                    <p>{String(value)}</p>
-                                </div>
-                             </TableCell>
+                                <CeldaDinamica value={value} />
+                            </TableCell>
                         ))}
-                        
                     </TableRow>
-                ))} 
+                ))}
+
             </TableBody>
         </Table>
     );
