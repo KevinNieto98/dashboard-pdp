@@ -1,7 +1,7 @@
 'use client'
 
 import { CeldaDinamica } from "@/components";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
 
@@ -19,10 +19,15 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
 
     const [filterValue, setFilterValue] = useState("");
     const [page, setPage] = useState(1);
+
     const [statusFilter, setStatusFilter] = useState("all");
     const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const pages = Math.ceil(data.length / rowsPerPage);
     let headers: string[] = [];
     let newData: any[] = [];
+
+
     if (!data || data.length === 0) {
         return <div>No data available</div>;
     }
@@ -114,10 +119,32 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
     ]);
 
 
+
+    const items = useMemo(() => {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+
+        return newData.slice(start, end);
+    }, [page, newData]);
+
+
     return (
         <Table
             aria-label="Example table with custom cells"
             topContent={topContent}
+            bottomContent={
+                <div className="flex w-full justify-center">
+                    <Pagination
+                        isCompact
+                        showControls
+                        showShadow
+                        color="secondary"
+                        page={page}
+                        total={pages}
+                        onChange={(page) => setPage(page)}
+                    />
+                </div>
+            }
         >
             <TableHeader>
                 {headers.map((header, index) => (
@@ -125,7 +152,7 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
                 ))}
             </TableHeader>
             <TableBody>
-                {newData.map((item: any) => (
+                {items.map((item: any) => (
                     <TableRow key={item[0]}>
                         {Object.values(item).map((value, index) => (
                             <TableCell key={index}>
