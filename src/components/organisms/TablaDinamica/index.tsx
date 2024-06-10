@@ -1,6 +1,7 @@
 'use client'
 
 import { CeldaDinamica } from "@/components";
+import { useUIStore } from "@/store";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
@@ -16,7 +17,7 @@ interface TablaDinamica {
 
 
 export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
-
+    const openModal = useUIStore((state) => state.openModal);
     const [filterValue, setFilterValue] = useState("");
     const [page, setPage] = useState(1);
 
@@ -108,7 +109,11 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
                         onValueChange={onSearchChange}
                     />
                     <div className="flex gap-3">
-                        <Button color="primary" endContent={<FaPlus />}>
+                        <Button 
+                            color="primary" 
+                            endContent={<FaPlus />}
+                            onClick={openModal}
+                        >
                             Nuevo
                         </Button>
                     </div>
