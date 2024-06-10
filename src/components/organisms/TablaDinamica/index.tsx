@@ -2,7 +2,7 @@
 
 import { CeldaDinamica } from "@/components";
 import { useUIStore } from "@/store";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
+import { Button, Input, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
 
