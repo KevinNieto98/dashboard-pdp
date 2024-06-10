@@ -23,9 +23,11 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
     const [statusFilter, setStatusFilter] = useState("all");
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
-    const pages = Math.ceil(data.length / rowsPerPage);
+    
     let headers: string[] = [];
     let newData: any[] = [];
+    const hasSearchFilter = Boolean(filterValue);
+
 
 
     if (!data || data.length === 0) {
@@ -75,6 +77,23 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
         setPage(1)
     }, [])
 
+    const filteredItems = useMemo(() => {
+        let filteredData = [...newData];
+        
+       
+        
+        if (hasSearchFilter) {
+            filteredData = filteredData.filter((item) =>
+                Object.values(item).some((value:any) =>
+                    value.toString().toLowerCase().includes(filterValue.toLowerCase())
+                )
+            );
+        }
+
+    
+        return filteredData;
+      }, [newData, filterValue, statusFilter]);
+
     const topContent = useMemo(() => {
         return (
             <div className="flex flex-col gap-4">
@@ -95,7 +114,7 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="text-default-400 text-small">Total: {data.length} tipos</span>
+                    <span className="text-default-400 text-small">Total: {filteredItems.length} tipos</span>
                     <label className="flex items-center text-default-400 text-small">
                         Rows per page:
                         <select
@@ -124,9 +143,10 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        return newData.slice(start, end);
-    }, [page, newData]);
+        return filteredItems.slice(start, end);
+    }, [page, filteredItems]);
 
+    const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
     return (
         <Table
