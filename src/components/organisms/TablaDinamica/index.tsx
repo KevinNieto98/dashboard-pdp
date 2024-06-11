@@ -42,7 +42,7 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
             Object.keys(obj).forEach((key, index) => {
                 newObj[index] = obj[key];
             });
-            newObj[Object.keys(obj).length] = 'accion';
+            newObj[Object.keys(obj).length] = `#ACCION#[${obj.id}]`;
             return newObj;
         });
     } else {
