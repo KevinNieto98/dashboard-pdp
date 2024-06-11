@@ -1,7 +1,8 @@
 'use client'
 
 import { useUIStore } from "@/store";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Switch, Textarea } from "@nextui-org/react";
+import clsx from "clsx";
 import React from "react";
 
 export const ModalComponent = () => {
@@ -12,38 +13,33 @@ export const ModalComponent = () => {
 
   return (
     <>
-      <Modal 
-        size={'5xl'} 
-        isOpen={isModalOpen} 
-        onClose={closeModal} 
+      <Modal
+        size={'5xl'}
+        isOpen={isModalOpen}
+        onClose={closeModal}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Detalle de Tipo de Ingreso</ModalHeader>
               <ModalBody>
-                <p> 
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Magna exercitation reprehenderit magna aute tempor cupidatat consequat elit
-                  dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt cillum quis. 
-                  Velit duis sit officia eiusmod Lorem aliqua enim laboris do dolor eiusmod. 
-                </p>
+                <Input type="name" label="Nombre del Tipo de Evento" placeholder="Ingresa el nombre del tipo de evento" />
+                <Textarea
+                  minRows={8}
+                  label="Descripcion"
+                  placeholder="Ingresa el nombre del tipo de evento"
+                  className="max-w-full"
+                />
+                <Switch defaultSelected size="lg">
+                  Activo
+                </Switch>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+                <Button color="danger" onPress={onClose}>
+                  Cerrar
                 </Button>
                 <Button color="primary" onPress={onClose}>
-                  Action
+                  Guardar
                 </Button>
               </ModalFooter>
             </>
