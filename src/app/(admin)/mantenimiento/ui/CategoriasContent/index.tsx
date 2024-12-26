@@ -1,6 +1,7 @@
 'use client'
 import { TablaDinamica } from "@/components";
-import { Text } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
+import { SubCategoriasContent } from "../SubCategoriasContent";
 
 
 
@@ -134,24 +135,38 @@ const data = [
     
 ]
 
-export const TipoIngreso = () => {
+export const CategoriasContent = () => {
     return (
         <div className="p-4">
             <Text
                 as='b'
                 fontSize='2xl'
             >
-                Mantenimiento de Tipo de Ingreso
+                Categorias
             </Text>
 
             <Text
                 className="pt-4 pb-4"
             >
-                Pagina para administrar los tipos de ingresos de la iglesia, puedes seleccionar los vigentes.
+                Pagina para administrar las categorias de los productos.
             </Text>
+            <Tabs>
+                <TabList>
+                    <Tab>Categorias</Tab>
+                    <Tab>Sub-Categorias</Tab>
+                </TabList>
+
+                <TabPanels>
+                    <TabPanel>
+                        <TablaDinamica dinamica={true} data={data}/>
+                    </TabPanel>
+                    <TabPanel>
+                        <SubCategoriasContent/>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
 
 
-            <TablaDinamica dinamica={true} data={data}/>
 
         </div>
     );

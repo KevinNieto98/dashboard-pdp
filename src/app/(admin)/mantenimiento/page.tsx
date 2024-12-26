@@ -1,22 +1,18 @@
 
-import { PersonasContent, TipoIngreso } from "@/components";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { CategoriasContent } from "./ui";
 
 export default function mantenimientoPage() {
     return (
         <>
             <Tabs>
                 <TabList>
-                    <Tab>Personas</Tab>
-                    <Tab>Tipo de Ingreso</Tab>
+                    <Tab>Categorias</Tab>
                 </TabList>
 
                 <TabPanels>
                     <TabPanel>
-                        <PersonasContent/>
-                    </TabPanel>
-                    <TabPanel>
-                        <TipoIngreso/>
+                        <CategoriasContent />
                     </TabPanel>
                 </TabPanels>
             </Tabs>

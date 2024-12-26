@@ -35,3 +35,7 @@ body {
 body > div > main > nav > header{
   max-width: none !important;
 }  
+
+.custom-max-width {
+  max-width: none !important;
+}

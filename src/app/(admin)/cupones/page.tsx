@@ -7,13 +7,13 @@ export default function DiezmosPage() {
                 as='b'
                 fontSize='2xl'
             >
-                Diezmos
+                Cupones
             </Text>
 
             <Text
                 className="pt-4"
             >
-                Pagina de Control de Diezmos
+                Pagina de Control de Cupones
             </Text>
         </div>
     );

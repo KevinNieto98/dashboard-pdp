@@ -7,13 +7,13 @@ export default function IngresosPage() {
                 as='b'
                 fontSize='2xl'
             >
-                Ingresos
+                Ordenes
             </Text>
 
             <Text
                 className="pt-4"
             >
-                Pagina de Control de Ingresos
+                Pagina de Control de Ordenes
             </Text>
         </div>
     );

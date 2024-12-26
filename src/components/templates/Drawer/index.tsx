@@ -1,5 +1,7 @@
 'use client'
 
+
+import { Icon } from "@/components/atoms";
 import { useUIStore } from "@/store";
 import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay } from "@chakra-ui/react";
 import Link from "next/link";
@@ -32,35 +34,59 @@ export const DrawerComponent = () => {
 
           <DrawerBody>
             <Link
-              href="/ingresos"
-              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+              href="/productos"
+              className="flex items-center mt-2 p-2 hover:bg-gray-100 rounded transition-all"
               onClick={closeSideMenu}
             >
-              <TbMoneybag size={30} />
-              <span className="ml-3 text-xl">Ingresos</span>
+              <Icon
+                  name="FaShoppingBag"
+                  className="text-2xl"
+              />
+              <span className="ml-3 text-xl">Productos</span>
             </Link>
             <Link
-              href="/ofrendas"
-              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+              href="/ordenes"
+              className="flex items-center mt-2 p-2 hover:bg-gray-100 rounded transition-all"
               onClick={closeSideMenu}
             >
-              <GrMoney size={30} />
-              <span className="ml-3 text-xl">Ofrendas</span>
+              <Icon
+                name="FaChartArea"
+                className="text-2xl"
+              />
+              <span className="ml-3 text-xl">Ordenes</span>
             </Link>
             <Link
-              href="/diezmos"
-              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+              href="/usuarios"
+              className="flex items-center mt-2 p-2 hover:bg-gray-100 rounded transition-all"
               onClick={closeSideMenu}
             >
-              <PiPlantBold size={30} />
-              <span className="ml-3 text-xl">Diezmos</span>
+              <Icon
+                name="FaUser"
+                className="text-2xl"
+              />
+              <span className="ml-3 text-xl">Usuarios</span>
             </Link>
             <Link
-              href="mantenimiento"
-              className="flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all"
+              href="/cupones"
+              className="flex items-center mt-2 p-2 hover:bg-gray-100 rounded transition-all"
               onClick={closeSideMenu}
             >
-              <TbTool size={30} />
+              <Icon
+                name="FaTicketAlt"
+                className="text-2xl"
+              />
+              <span className="ml-3 text-xl">Cupones</span>
+            </Link>
+            <Link
+              href="/mantenimiento"
+              className="flex items-center mt-2 p-2 hover:bg-gray-100 rounded transition-all"
+              onClick={closeSideMenu}
+            >
+              <Icon
+                name="FaTools"
+                className="text-2xl"
+              />
+              
               <span className="ml-3 text-xl">Mantenimiento</span>
             </Link>
 
