@@ -2,33 +2,33 @@ import { create } from 'zustand';
 const data = [
     {
         id: 1,
-        nombre: "Educativos",
+        name: "Educativos",
         activo: true
     },
     {
         id: 2,
-        nombre: "Manualidades",
+        name: "Manualidades",
         activo: false
     },
     {
         id: 3,
-        nombre: "Rompecabezas",
+        name: "Rompecabezas",
         activo: true
     },
     {
         id: 4,
-        nombre: "Juegos de Meza",
+        name: "Juegos de Meza",
         activo: false
     },
 ]
 interface State {
   subCategorias: any[];
-  selectedSubCategoria: string;
+  selectedSubCategoria: number | string
 
-  selectSubCategoria: (id: string) => void;
-  deleteSubCategoria: (id: string) => void;
+  selectSubCategoria: (id: number | string) => void;
+  deleteSubCategoria: (id: number | string) => void;
   addSubCategoria: (subCategoria: any) => void;
-  updateSubCategoria: (id: string, subCategoria: any) => void;
+  updateSubCategoria: (id: number | string, subCategoria: any) => void;
   getSubCategorias: (subCategorias: any[]) => void;
 }
 

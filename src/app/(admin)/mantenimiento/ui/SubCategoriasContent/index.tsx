@@ -1,20 +1,24 @@
 'use client'
-import { Icon, TablaDinamica } from "@/components";
+import { Icon, ModalEdit, TablaDinamica } from "@/components";
 import { Button, Input } from "@nextui-org/react";
 import { useSubCategoriasStore } from "../../store";
-
-
+import { useUIStore } from "@/store";
+import { ContenidoModal } from "../ModalContent";
 
 export const SubCategoriasContent = () => {
     const getSubCategorias = useSubCategoriasStore((state) => state.getSubCategorias);
     const subCategorias = useSubCategoriasStore((state) => state.subCategorias);
+    const selectSubCategoria = useSubCategoriasStore((state) => state.selectSubCategoria);
+    const openModal = useUIStore((state) => state.openModal);
+
     getSubCategorias(subCategorias);
     
     const updateSubcategoria = (key: number) => {
         if (key >= 0 && key < subCategorias.length) {
-            const subcategoria = subCategorias[key];
-            console.log('subcategoria', subcategoria);  
+            const subcategoriaSeleccionada = subCategorias[key].id;
+            selectSubCategoria(subcategoriaSeleccionada);
         } 
+        openModal();
     };
 
 
@@ -40,10 +44,14 @@ export const SubCategoriasContent = () => {
             </div>
             <TablaDinamica
                 data={subCategorias} 
-                needTopContent={false} 
                 tieneFuncion  = {true} 
                 needOpenModal = {true}
                 funcionBoton = {updateSubcategoria}   
+            />
+            <ModalEdit
+                esEjemplo={false}
+                titulo="Mantenimiento de Sub-Categorias"
+                children={<ContenidoModal />}
             />
         </div>
     );
