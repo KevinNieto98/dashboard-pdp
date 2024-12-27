@@ -1,51 +1,89 @@
-'use client'
+'use client';
 
-import { useUIStore } from "@/store";
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Switch, Textarea } from "@nextui-org/react";
-import clsx from "clsx";
+
 import React from "react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button,} from "@nextui-org/react";
+import { useUIStore } from "@/store";
 
-export const ModalComponent = () => {
-  const isModalOpen = useUIStore((state) => state.isModalOpen);
-  const closeModal = useUIStore((state) => state.closeModal);
+type Inputs = {
+    size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full";
+    titulo?: string,
+    data?: any
+    children?: React.ReactNode;
+    footer?: React.ReactNode;
+    esEjemplo?: boolean;
 
-
-
-  return (
-    <>
-      <Modal
-        size={'5xl'}
-        isOpen={isModalOpen}
-        onClose={closeModal}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">Detalle de Tipo de Ingreso</ModalHeader>
-              <ModalBody>
-                <Input type="name" label="Nombre del Tipo de Evento" placeholder="Ingresa el nombre del tipo de evento" />
-                <Textarea
-                  minRows={8}
-                  label="Descripcion"
-                  placeholder="Ingresa el nombre del tipo de evento"
-                  className="max-w-full"
-                />
-                <Switch defaultSelected size="lg">
-                  Activo
-                </Switch>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" onPress={onClose}>
-                  Cerrar
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Guardar
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
-  );
 }
+
+
+
+export const ModalEdit: React.FC<Inputs> = ({ size = "5xl" , titulo,  data, esEjemplo= true, children, footer  }) => {
+    //const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    //const isOpen = isModalOpen
+    const isOpen = useUIStore((state) => state.isModalOpen);
+    const closeModal = useUIStore((state) => state.closeModal);
+    const openModal = useUIStore((state) => state.openModal);
+
+    //   // console.log(watch('nombre')) //note: esto me sirve para observar el comportamiennto de un input cada vez que se altera
+    function publish(formData: any) {
+        const content = formData.get("content");
+        const button = formData.get("button");
+        alert(`'${content}' was published with the '${button}' button`);
+    };
+    
+    return (
+        <>
+            <Modal 
+                size={size} 
+                isOpen={isOpen} 
+                onOpenChange={closeModal} 
+                className="overflow-y-auto absolute"
+                scrollBehavior="inside"
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">
+                                {esEjemplo? 'Mantenimiento de Usuarios':  titulo}
+                            </ModalHeader>
+                            <form action={publish}
+                            >
+                                {/*onSubmit={handleSubmit(onSubmit)}*/}
+                                <ModalBody>
+                                    {/* register your input into the hook by invoking the "register" function */}
+                                    {
+                                       children
+                                    }
+                                  
+
+                                </ModalBody>
+                                <ModalFooter 
+                                    className="flex justify-between"
+                                >
+                                    {
+                                        esEjemplo ? 
+                                        <>
+                                            <Button color="danger" variant="light" onPress={closeModal} size="sm">
+                                                Cancelar
+                                            </Button>
+                                            <div className="flex items-center gap-2">
+                                                <Button color="primary" onPress={closeModal} size="sm" variant="light">
+                                                    Actualizar
+                                                </Button>
+                                                <Button name="buttton" value="submit" type="submit" color="primary" size="sm">
+                                                    Crear
+                                                </Button>
+                                            </div>
+                                        </>
+                                        : footer
+                                    }
+                                </ModalFooter>
+                            </form>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+        </>
+    );
+}
+

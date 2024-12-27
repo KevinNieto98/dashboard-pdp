@@ -5,9 +5,16 @@ import { TbEdit } from "react-icons/tb";
 
 interface CeldaProps {
     value: string | number | boolean  | any;
+    tieneFuncion?: boolean;
+    funcionBoton?: () => void;
 }
 
-export const CeldaDinamica = ({ value }: CeldaProps) => {
+export const CeldaDinamica = ({ 
+        value, 
+        tieneFuncion, 
+        funcionBoton }: CeldaProps) => {
+    console.log('value',value, 'tieneFuncion',tieneFuncion, 'funcionBoton',funcionBoton);
+    
     const openModal = useUIStore((state) => state.openModal);
 
     const handleClick =()=>{
@@ -33,7 +40,7 @@ export const CeldaDinamica = ({ value }: CeldaProps) => {
                 <Tooltip content="Edit user">
                     <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                         <Button
-                            onClick={handleClick}
+                            onClick={tieneFuncion && funcionBoton ? funcionBoton : undefined }
                         >
                             <TbEdit />
                         </Button>

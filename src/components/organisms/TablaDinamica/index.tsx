@@ -1,70 +1,149 @@
-'use client'
+'use client';
+import React, { Key, useCallback, useMemo, useState, ChangeEvent } from "react";
+import {
+    Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button, DropdownTrigger, Dropdown, DropdownMenu,
+    DropdownItem, Pagination, Selection, SortDescriptor,
+    Spinner,
+    getKeyValue,
+    Tooltip
+} from "@nextui-org/react";
 
-import { CeldaDinamica } from "@/components";
-import { useUIStore } from "@/store";
-import { Button, Input, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
-import { useCallback, useMemo, useState } from "react";
-import { FaPlus, FaSearch } from "react-icons/fa";
 
-interface MyObject {
-    [key: number]: any;
+import { IoChevronDownCircleOutline, IoSearch } from "react-icons/io5";
+import { RiFileExcel2Fill } from "react-icons/ri";
+import { useUITableStore } from "@/store";
+import { Icon, ModalEdit } from "@/components";
+import { capitalize, ExportCSV } from "@/utils";
+
+export interface PropsColumns {
+    columns: string[];
 }
 
-interface TablaDinamica {
-    data: any[],
-    dinamica: boolean
+interface UiTableProps {
+    data: any[];
+    needTopContent?: boolean;
+    needBottonContent?: boolean;
+    needOpenModal?: boolean;
+    esSeleccion?: boolean;
+    tieneFuncion?: boolean;
+    funcionBoton?: (key:number) => void;
 }
 
+export const TablaDinamica: React.FC<UiTableProps> = (
+    {   data, 
+        needTopContent = true, 
+        needBottonContent = true, 
+        needOpenModal=false,
+        esSeleccion = false,
+        tieneFuncion=false,
+        funcionBoton
+    }
+) => {
 
-export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
-    const openModal = useUIStore((state) => state.openModal);
+    const columnas = useMemo(() => {
+ 
+        if (data.length > 0) {
+            const dynamicColumns = Object.keys(data[0]).map((valor) => ({
+                uid: `${valor}`,
+                key: `${valor}`,
+                label: `${valor}`
+            }));
+            return needOpenModal
+                ? [{ uid: 'accion', key: 'accion', label: 'ACCION' }, ...dynamicColumns]
+                : dynamicColumns;
+        }
+        return needOpenModal
+            ? [{ uid: 'accion', key: 'accion', label: 'ACCION' }]
+            : [];
+
+        
+    }, [data, needOpenModal]);
+
+    // Agregar las keys
+    data = data.map((item: any, index: any) => ({
+        ...item,
+        key: index
+    }));
+
+    const columnFilter = "name";
+    const rows = data;
+
+    type Rows = typeof rows[0];
+
     const [filterValue, setFilterValue] = useState("");
+    const [visibleColumns, setVisibleColumns] = useState<Selection>(new Set([]));
+    const [rowsPerPage, setRowsPerPage] = useState(7);
+    const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+        column: columnFilter,
+        direction: "ascending",
+    });
     const [page, setPage] = useState(1);
-
-    const [statusFilter, setStatusFilter] = useState("all");
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    
-    let headers: string[] = [];
-    let newData: any[] = [];
+    const pages = Math.ceil(rows?.length / rowsPerPage);
     const hasSearchFilter = Boolean(filterValue);
 
+    const headerColumns = useMemo(() => {
+        if (visibleColumns === "all") return columnas;
+        return data?.filter((column: { uid: string | number | undefined; name: any; }) => column.uid && Array.from(visibleColumns).includes(column.uid));
+    }, [visibleColumns, columnas, data]);
 
+    const filteredItems = useMemo(() => {
+        let filteredRows = data ? [...data] : [];
+        if (hasSearchFilter) {
+            filteredRows = filteredRows.filter((data) =>
+                data.name.toLowerCase().includes(filterValue.toLowerCase()),
+            );
+        }
+        return filteredRows;
+    }, [data, filterValue, hasSearchFilter]);
 
-    if (!data || data.length === 0) {
-        return <div>No data available</div>;
-    }
-    if (dinamica) {
-        headers = [...Object.keys(data[0]).map(key => key.toUpperCase()), 'ACCIONES'];
+    const items = useMemo(() => {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        return filteredItems.slice(start, end);
+    }, [page, filteredItems, rowsPerPage]);
 
-        newData = data.map((obj: any) => {
-            let newObj: MyObject = {};
-            Object.keys(obj).forEach((key, index) => {
-                newObj[index] = obj[key];
-            });
-            newObj[Object.keys(obj).length] = `#ACCION#[${obj.id}]`;
-            return newObj;
+    const sortedItems = useMemo(() => {
+        return [...items].sort((a: Rows, b: Rows) => {
+            const first = a[sortDescriptor.column as keyof Rows];
+            const second = b[sortDescriptor.column as keyof Rows];
+            const firstStr = first?.toString() || '';
+            const secondStr = second?.toString() || '';
+            let cmp: number;
+            if (!isNaN(Number(first)) && !isNaN(Number(second))) {
+                cmp = Number(first) - Number(second);
+            } else {
+                cmp = firstStr.localeCompare(secondStr, undefined, { numeric: true, sensitivity: 'base' });
+            }
+            return sortDescriptor.direction === "descending" ? -cmp : cmp;
         });
-    } else {
-        headers = [...Object.keys(data[0]).map(key => key.toUpperCase())];
+    }, [sortDescriptor, items]);
 
-        newData = data.map((obj: any) => {
-            let newObj: MyObject = {};
-            Object.keys(obj).forEach((key, index) => {
-                newObj[index] = obj[key];
-            });
-            return newObj;
-        });
-    }
-    //TODO: Cambiar por HEADERS
-    const [visibleColumns, setVisibleColumns] = useState(new Set(headers));
+    const renderCell = useCallback((rows: Rows, columnKey: Key) => {
+        const cellValue = rows[columnKey as keyof Rows];
+        switch (columnKey) {
+            case "actions2":
+                return (
+                    <div className="relative flex justify-end items-center gap-2">
+                        <Button>ok</Button>
+                    </div>
+                );
+            case "actions":
+                return (
+                    <div className="relative flex justify-end items-center gap-2">
+                        <ModalEdit  data={data} />
+                    </div>
+                );
+            default:
+                return cellValue;
+        }
+    }, [data]);
 
-    const onRowsPerPageChange = useCallback((e: any) => {
+    const onRowsPerPageChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
         setRowsPerPage(Number(e.target.value));
         setPage(1);
     }, []);
 
-    const onSearchChange = useCallback((value: any) => {
+    const onSearchChange = useCallback((value?: string) => {
         if (value) {
             setFilterValue(value);
             setPage(1);
@@ -73,55 +152,63 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
         }
     }, []);
 
-    const onClear = useCallback(() => {
-        setFilterValue("")
-        setPage(1)
-    }, [])
-
-    const filteredItems = useMemo(() => {
-        let filteredData = [...newData];
-        
-       
-        
-        if (hasSearchFilter) {
-            filteredData = filteredData.filter((item) =>
-                Object.values(item).some((value:any) =>
-                    value.toString().toLowerCase().includes(filterValue.toLowerCase())
-                )
-            );
-        }
-
-    
-        return filteredData;
-      }, [newData, filterValue, statusFilter]);
 
     const topContent = useMemo(() => {
+        if (!needTopContent) {
+            return null;
+        }
+    
         return (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 mt-1">
                 <div className="flex justify-between gap-3 items-end">
                     <Input
+                        labelPlacement="outside"
                         isClearable
-                        className="w-full sm:max-w-[44%]"
-                        placeholder="Search by name..."
-                        startContent={<FaSearch />}
+                        classNames={{
+                            base: "w-full sm:max-w-[44%]",
+                            inputWrapper: "border-1",
+                        }}
+                        placeholder="Buscar en primera columna"
+                        size="sm"
+                        startContent={<IoSearch className=" text-cyan-600 text-xl" />}
                         value={filterValue}
-                        onClear={() => onClear()}
+                        variant="bordered"
+                        onClear={() => setFilterValue("")}
                         onValueChange={onSearchChange}
                     />
                     <div className="flex gap-3">
-                        <Button 
-                            color="primary" 
-                            endContent={<FaPlus />}
-                            onClick={openModal}
-                        >
-                            Nuevo
-                        </Button>
+                        <Dropdown>
+                            <DropdownTrigger className="hidden sm:flex">
+                                <Button
+                                    endContent={<IoChevronDownCircleOutline className="text-small" />}
+                                    size="sm"
+                                    variant="flat"
+                                >
+                                    Columnas
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                                disallowEmptySelection
+                                aria-label="Table Columns"
+                                closeOnSelect={false}
+                                selectedKeys={visibleColumns}
+                                selectionMode="multiple"
+                                onSelectionChange={setVisibleColumns}
+                            >
+                                {columnas.map((column: { uid: string | number | undefined; label: any; }) => (
+                                    <DropdownItem key={column.uid} className="capitalize">
+                                        {capitalize(column.label)}
+                                    </DropdownItem>
+                                ))}
+                            </DropdownMenu>
+                        </Dropdown>
+                        <Button onClick={() => { ExportCSV(data, 'MatenimientoUsuarios') }} size="sm" color="success" endContent={<RiFileExcel2Fill />} className="p-2">Exportar CSV</Button>
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="text-default-400 text-small">Total: {filteredItems.length} tipos</span>
+                    <span className="text-default-400 text-small">Total {data?.length} rows</span>
                     <label className="flex items-center text-default-400 text-small">
-                        Rows per page:
+                        Filar por página:
                         <select
                             className="bg-transparent outline-none text-default-400 text-small"
                             onChange={onRowsPerPageChange}
@@ -134,60 +221,104 @@ export const TablaDinamica = ({ data, dinamica }: TablaDinamica) => {
                 </div>
             </div>
         );
-    }, [
-        filterValue,
-        statusFilter,
-        visibleColumns,
-        onRowsPerPageChange,
-        onSearchChange,
-    ]);
+    }, [needTopContent, filterValue, onSearchChange, visibleColumns, columnas, data, onRowsPerPageChange]);
+    const bottomContent = useMemo(() => {
+        if (!needBottonContent) {
+            return null;
+        }
+        return (
+            <div className="py-2 px-2 flex justify-between items-center">
+                <Pagination
+                    showControls
+                    classNames={{
+                        cursor: "bg-foreground text-background",
+                    }}
+                    color="default"
+                    isDisabled={hasSearchFilter}
+                    page={page}
+                    total={pages}
+                    variant="light"
+                    onChange={setPage}
+                />
+                {/* <span className="text-small text-default-400">
+                    {selectedKeys === "all"
+                        ? "All items selected"
+                        : `${selectedKeys.size} of ${items.length} selected`}
+                </span> */}
+            </div>
+        );
+    }, [page, pages, hasSearchFilter]);
+
+    const classNames = useMemo(
+        () => ({
+            wrapper: ["max-h-full", "max-w-full"],
+            table: ["w-full", "max-w-full", "overflow-x-auto", "bg-white"],
+            th: ["bg-gray", "text-default-500", "border-b", "border-divider"],
+            td: [
+                "group-data-[first=true]:first:before:rounded-none",
+                "group-data-[first=true]:last:before:rounded-none",
+                "group-data-[middle=true]:before:rounded-none",
+                "group-data-[last=true]:first:before:rounded-none",
+                "group-data-[last=true]:last:before:rounded-none",
+            ],
+        }),
+        [],
+    );
 
 
+    const itemsSelected = useUITableStore((state) => state.itemsSelected);
+    const selectionItem = useUITableStore((state) => state.selectionItem);
 
-    const items = useMemo(() => {
-        const start = (page - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-
-        return filteredItems.slice(start, end);
-    }, [page, filteredItems]);
-
-    const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
     return (
-        <Table
-            aria-label="Example table with custom cells"
-            topContent={topContent}
-            bottomContent={
-                <div className="flex w-full justify-center">
-                    <Pagination
-                        isCompact
-                        showControls
-                        showShadow
-                        color="secondary"
-                        page={page}
-                        total={pages}
-                        onChange={(page) => setPage(page)}
-                    />
-                </div>
-            }
-        >
-            <TableHeader>
-                {headers.map((header, index) => (
-                    <TableColumn key={index} align="center">{header}</TableColumn>
-                ))}
-            </TableHeader>
-            <TableBody>
-                {items.map((item: any) => (
-                    <TableRow key={item[0]}>
-                        {Object.values(item).map((value, index) => (
-                            <TableCell key={index}>
-                                <CeldaDinamica value={value} />
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                ))}
-
-            </TableBody>
-        </Table>
+<Table
+    isCompact
+    aria-label="Reporte Administración usuarios"
+    bottomContent={bottomContent}
+    bottomContentPlacement="outside"
+    classNames={classNames}
+    sortDescriptor={sortDescriptor}
+    topContent={topContent}
+    topContentPlacement="outside"
+    onSortChange={setSortDescriptor}
+    selectedKeys={itemsSelected}
+    onSelectionChange={selectionItem}
+    {...(esSeleccion && { selectionMode: "multiple" })}
+>
+    <TableHeader columns={columnas}>
+        {(column: any) => (
+            <TableColumn key={column.key}>{column.label}</TableColumn>
+        )}
+    </TableHeader>
+    <TableBody
+        items={items ?? []}
+        loadingContent={<Spinner />}
+    >
+        {(item) => (
+    <TableRow key={item.key}>
+        {columnas.map((column) => (
+            <TableCell key={column.key}>
+                {column.key === 'accion' ? 
+                    <div className="relative flex gap-2">
+                        <Tooltip content="Revisar Factura">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                <Button
+                                    onClick={() => tieneFuncion && funcionBoton ? funcionBoton(item.key) : console.log('edit')}
+                                >
+                                    <Icon
+                                        key={"FaSearch"}
+                                        name="FaSearch"
+                                    />
+                                </Button>
+                            </span>
+                        </Tooltip>
+                    </div>
+                : getKeyValue(item, column.key)}
+            </TableCell>
+        ))}
+    </TableRow>
+)}
+    </TableBody>
+</Table>
     );
 }

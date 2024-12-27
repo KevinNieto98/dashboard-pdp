@@ -1,5 +1,4 @@
-import { DrawerComponent, NavbarComponent } from "@/components";
-import { ModalComponent } from "@/components/templates/Modal";
+import { DrawerComponent, ModalEdit, NavbarComponent } from "@/components";
 
 export default function AdminLayot({
  children
@@ -10,7 +9,7 @@ export default function AdminLayot({
   <>
     <NavbarComponent/>
     <DrawerComponent/>
-    <ModalComponent/>
+    {/* <ModalEdit/> */}
     <div className="my-6  bg-white rounded p-5 px-16">
       {children}
 
