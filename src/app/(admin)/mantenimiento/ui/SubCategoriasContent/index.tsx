@@ -16,6 +16,8 @@ export const SubCategoriasContent = () => {
     const updateSubcategoria = (key: number) => {
         if (key >= 0 && key < subCategorias.length) {
             const subcategoriaSeleccionada = subCategorias[key].id;
+            console.log('subcategoriaSeleccionada: ', subcategoriaSeleccionada);
+            
             selectSubCategoria(subcategoriaSeleccionada);
         } 
         openModal();
@@ -25,11 +27,6 @@ export const SubCategoriasContent = () => {
     return (
         <div className="p-4">
             <div className="flex items-center space-x-4 mb-10">
-                <Input
-                    label="Sub-Categoria"
-                    placeholder="Ingrese el nombre de la subcategoria"
-                    type="text"
-                />
                 <Button
                     color="success"
                     className="text-white"

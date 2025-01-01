@@ -5,15 +5,16 @@ import { Icon } from "@/components";
 
 interface Props {
     iconName: IconName;
-    titulo: String;
+    titulo?: String ;
+    className?: string;
   }
 
-export const Header = ({ iconName,titulo }: Props) => {
+export const Header = ({ iconName,titulo="", className = ""}: Props) => {
 
 
     return (
         <>
-            <div className="w-full flex items-center justify-center bg-red">
+            <div className={`w-full flex items-center justify-center bg-red ${className}`}>
                 <div className="text-6xl"> {/* Ajusta el tamaño del contenedor */}
                     <Icon
                         name={iconName}
@@ -22,7 +23,7 @@ export const Header = ({ iconName,titulo }: Props) => {
                 </div>
             </div>
             <div>
-                <h1 className="text-2xl font-bold justify-center text-center items-center">{titulo}</h1>
+                <h1 className="pt-2 text-2xl font-bold justify-center text-center items-center">{titulo}</h1>
             </div>
         </>
     );

@@ -23,19 +23,22 @@ const data = [
 ]
 interface State {
   subCategorias: any[];
-  selectedSubCategoria: number | string
+  selectedSubCategoria: any;
 
   selectSubCategoria: (id: number | string) => void;
   deleteSubCategoria: (id: number | string) => void;
   addSubCategoria: (subCategoria: any) => void;
   updateSubCategoria: (id: number | string, subCategoria: any) => void;
   getSubCategorias: (subCategorias: any[]) => void;
+  getSubcategoryUnique: (id: number | string) => any;
 }
 
 export const useSubCategoriasStore = create<State>((set) => ({
   subCategorias: data,
-  selectedSubCategoria: '',
-  selectSubCategoria: (id) => set({ selectedSubCategoria: id }),
+  selectedSubCategoria: null,
+  selectSubCategoria: (id) => set((state) => ({
+    selectedSubCategoria: state.subCategorias.find((sub) => sub.id === id) || null
+  })),
   deleteSubCategoria: (id) => set((state) => ({
     subCategorias: state.subCategorias.filter((sub) => sub.id !== id),
     selectedSubCategoria: state.selectedSubCategoria === id ? '' : state.selectedSubCategoria,
@@ -49,4 +52,7 @@ export const useSubCategoriasStore = create<State>((set) => ({
     ),
   })),
   getSubCategorias: (subCategorias) => set({ subCategorias }),
+  getSubcategoryUnique: (id) => set((state) => 
+    state.subCategorias.find((sub) => sub.id === id)
+  ),
 }));

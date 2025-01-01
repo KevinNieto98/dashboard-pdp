@@ -1,29 +1,40 @@
 'use client'
 
 import { Header } from "@/components";
+import { useSubCategoriasStore } from "../../store";
+import { Input, Switch } from "@nextui-org/react";
+import { useState } from "react";
 
 
 
 export const ContenidoModal = () => {
+    const selectedSubCategoria = useSubCategoriasStore((state) => state.selectedSubCategoria);
+
+    console.log('selectedSubCategoria: ', selectedSubCategoria);
+    const {
+        id,
+        name,
+        activo
+    } = selectedSubCategoria;
 
 
+    const [isSelected, setIsSelected] = useState(activo);
     return (
         <div className="rounded-lg w-full md:w-full lg:w-full border border-gray-300 shadow-sm p-4 flex overflow-hidden flex-col  justify-center py-12">
-            <Header iconName={'FaFile'} titulo={'Resumen de Factura'} />
-            <div className="flex justify-between space-x-4 pt-5">
-                <div >
-                    <p>Nombre de la Categoria</p>
+            <Header className = "pt-2" iconName={'FaFile'} titulo={'Detalle de Categoria'} />
+            <div className="flex flex-col space-y-4 pt-5 px-2">
+                <div>
+                    <p>ID de la Categoria: {id}</p>
                 </div>
-            </div>
-
-  
-
-
-            <div className="pt-5">
-
-                <div className="grid grid-cols-1 md:grid-cols-1 gap-4 pt-3 bg-red max-w-full w-full">
-          
-                </div>
+                <Input
+                    label="Nombre:"
+                    placeholder="Ingrese el nombre de la subcategoria"
+                    type="text"
+                    value={name}
+                />
+                <Switch isSelected={isSelected} onValueChange={setIsSelected}>
+                    Activa
+                </Switch>
             </div>
         </div>
     );
