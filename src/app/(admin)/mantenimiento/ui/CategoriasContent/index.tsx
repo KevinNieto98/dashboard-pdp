@@ -158,7 +158,7 @@ export const CategoriasContent = () => {
 
                 <TabPanels>
                     <TabPanel>
-                        <TablaDinamica dinamica={true} data={data}/>
+                        <TablaDinamica  data={data}/>
                     </TabPanel>
                     <TabPanel>
                         <SubCategoriasContent/>

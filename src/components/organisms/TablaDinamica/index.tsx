@@ -5,9 +5,9 @@ import {
     DropdownItem, Pagination, Selection, SortDescriptor,
     Spinner,
     getKeyValue,
-    Tooltip
+    Tooltip,
+    Switch
 } from "@nextui-org/react";
-
 
 import { IoChevronDownCircleOutline, IoSearch } from "react-icons/io5";
 import { RiFileExcel2Fill } from "react-icons/ri";
@@ -26,22 +26,21 @@ interface UiTableProps {
     needOpenModal?: boolean;
     esSeleccion?: boolean;
     tieneFuncion?: boolean;
-    funcionBoton?: (key:number) => void;
+    funcionBoton?: (key: number) => void;
 }
 
 export const TablaDinamica: React.FC<UiTableProps> = (
-    {   data, 
-        needTopContent = true, 
-        needBottonContent = true, 
-        needOpenModal=false,
-        esSeleccion = false,
-        tieneFuncion=false,
-        funcionBoton
+    { data, 
+      needTopContent = true, 
+      needBottonContent = true, 
+      needOpenModal = false,
+      esSeleccion = false,
+      tieneFuncion = false,
+      funcionBoton
     }
 ) => {
 
     const columnas = useMemo(() => {
- 
         if (data.length > 0) {
             const dynamicColumns = Object.keys(data[0]).map((valor) => ({
                 uid: `${valor}`,
@@ -55,8 +54,6 @@ export const TablaDinamica: React.FC<UiTableProps> = (
         return needOpenModal
             ? [{ uid: 'accion', key: 'accion', label: 'ACCION' }]
             : [];
-
-        
     }, [data, needOpenModal]);
 
     // Agregar las keys
@@ -124,23 +121,35 @@ export const TablaDinamica: React.FC<UiTableProps> = (
 
     const renderCell = useCallback((rows: Rows, columnKey: Key) => {
         const cellValue = rows[columnKey as keyof Rows];
+        if (typeof cellValue === 'boolean') {
+            return (
+                <Switch isSelected={cellValue} isDisabled>
+                    {/* {cellValue ? 'Activo' : 'Inactivo'} */}
+                </Switch>
+            );
+        }
         switch (columnKey) {
-            case "actions2":
+            case "accion":
                 return (
-                    <div className="relative flex justify-end items-center gap-2">
-                        <Button>ok</Button>
-                    </div>
-                );
-            case "actions":
-                return (
-                    <div className="relative flex justify-end items-center gap-2">
-                        <ModalEdit  data={data} />
+                    <div className="relative flex gap-2">
+                        <Tooltip content="Revisar Factura">
+                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                                <Button
+                                    onClick={() => tieneFuncion && funcionBoton ? funcionBoton(rows.key) : console.log('edit')}
+                                >
+                                    <Icon
+                                        key={"FaSearch"}
+                                        name="FaSearch"
+                                    />
+                                </Button>
+                            </span>
+                        </Tooltip>
                     </div>
                 );
             default:
                 return cellValue;
         }
-    }, [data]);
+    }, [tieneFuncion, funcionBoton]);
 
     const onRowsPerPageChange = useCallback((e: ChangeEvent<HTMLSelectElement>) => {
         setRowsPerPage(Number(e.target.value));
@@ -155,7 +164,6 @@ export const TablaDinamica: React.FC<UiTableProps> = (
             setFilterValue("");
         }
     }, []);
-
 
     const topContent = useMemo(() => {
         if (!needTopContent) {
@@ -226,6 +234,7 @@ export const TablaDinamica: React.FC<UiTableProps> = (
             </div>
         );
     }, [needTopContent, filterValue, onSearchChange, visibleColumns, columnas, data, onRowsPerPageChange]);
+
     const bottomContent = useMemo(() => {
         if (!needBottonContent) {
             return null;
@@ -244,11 +253,6 @@ export const TablaDinamica: React.FC<UiTableProps> = (
                     variant="light"
                     onChange={setPage}
                 />
-                {/* <span className="text-small text-default-400">
-                    {selectedKeys === "all"
-                        ? "All items selected"
-                        : `${selectedKeys.size} of ${items.length} selected`}
-                </span> */}
             </div>
         );
     }, [page, pages, hasSearchFilter]);
@@ -269,60 +273,43 @@ export const TablaDinamica: React.FC<UiTableProps> = (
         [],
     );
 
-
     const itemsSelected = useUITableStore((state) => state.itemsSelected);
     const selectionItem = useUITableStore((state) => state.selectionItem);
 
-
     return (
-<Table
-    isCompact
-    aria-label="Reporte Administración usuarios"
-    bottomContent={bottomContent}
-    bottomContentPlacement="outside"
-    classNames={classNames}
-    sortDescriptor={sortDescriptor}
-    topContent={topContent}
-    topContentPlacement="outside"
-    onSortChange={setSortDescriptor}
-    selectedKeys={itemsSelected}
-    onSelectionChange={selectionItem}
-    {...(esSeleccion && { selectionMode: "multiple" })}
->
-    <TableHeader columns={columnas}>
-        {(column: any) => (
-            <TableColumn key={column.key}>{column.label}</TableColumn>
-        )}
-    </TableHeader>
-    <TableBody
-        items={items ?? []}
-        loadingContent={<Spinner />}
-    >
-        {(item) => (
-    <TableRow key={item.key}>
-        {columnas.map((column) => (
-            <TableCell key={column.key}>
-                {column.key === 'accion' ? 
-                    <div className="relative flex gap-2">
-                        <Tooltip content="Revisar Factura">
-                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <Button
-                                    onClick={() => tieneFuncion && funcionBoton ? funcionBoton(item.key) : console.log('edit')}
-                                >
-                                    <Icon
-                                        key={"FaSearch"}
-                                        name="FaSearch"
-                                    />
-                                </Button>
-                            </span>
-                        </Tooltip>
-                    </div>
-                : getKeyValue(item, column.key)}
-            </TableCell>
-        ))}
-    </TableRow>
-)}
-    </TableBody>
-</Table>
+        <Table
+            isCompact
+            aria-label="Reporte Administración usuarios"
+            bottomContent={bottomContent}
+            bottomContentPlacement="outside"
+            classNames={classNames}
+            sortDescriptor={sortDescriptor}
+            topContent={topContent}
+            topContentPlacement="outside"
+            onSortChange={setSortDescriptor}
+            selectedKeys={itemsSelected}
+            onSelectionChange={selectionItem}
+            {...(esSeleccion && { selectionMode: "multiple" })}
+        >
+            <TableHeader columns={columnas}>
+                {(column: any) => (
+                    <TableColumn key={column.key}>{column.label.toUpperCase()}</TableColumn>
+                )}
+            </TableHeader>
+            <TableBody
+                items={items ?? []}
+                loadingContent={<Spinner />}
+            >
+                {(item: any) => (
+                    <TableRow key={item.key}>
+                        {columnas.map((column) => (
+                            <TableCell key={column.key}>
+                                {renderCell(item, column.key)}
+                            </TableCell>
+                        ))}
+                    </TableRow>
+                )}
+            </TableBody>
+        </Table>
     );
 }
