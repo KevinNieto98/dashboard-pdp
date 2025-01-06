@@ -30,10 +30,16 @@ export const SubCategoriasContent = () => {
 
     return (
         <div className="p-4">
-            <div className="flex items-center space-x-4 mb-10">
-                <Button
+            <TablaDinamica
+                data={subCategorias} 
+                tieneFuncion  = {true} 
+                needOpenModal = {true}
+                funcionBoton = {updateSubcategoria}
+                aditionalButton = {
+                    <Button
                     color="success"
                     className="text-white"
+                    onPress={openModal}
                     startContent={
                         <Icon
                             name="FaPlus"
@@ -42,12 +48,7 @@ export const SubCategoriasContent = () => {
                 >
                     Agregar
                 </Button>
-            </div>
-            <TablaDinamica
-                data={subCategorias} 
-                tieneFuncion  = {true} 
-                needOpenModal = {true}
-                funcionBoton = {updateSubcategoria}   
+                }   
             />
             <ModalEdit
                 esEjemplo={false}

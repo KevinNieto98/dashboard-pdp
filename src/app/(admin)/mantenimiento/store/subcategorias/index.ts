@@ -26,7 +26,7 @@ const data = [
 interface State {
   subCategorias: any[];
   selectedSubCategoria: any;
-
+  esEdicion: boolean;
   selectSubCategoria: (id: number | string) => void;
   deleteSubCategoria: (id: number | string) => void;
   addSubCategoria: (subCategoria: any) => void;
@@ -34,11 +34,18 @@ interface State {
   getSubCategorias: (subCategorias: any[]) => void;
   getSubcategoryUnique: (id: number | string) => any;
   updateSelectedSubCategoria: (updatedSubCategoria: any) => void;
+  startEdicion: () => void;
+  endEdicion: () => void;
 }
 
 export const useSubCategoriasStore = create<State>((set) => ({
   subCategorias: data,
-  selectedSubCategoria: null,
+  selectedSubCategoria:   {
+    id: null,
+    name: "",
+    activo: false
+  },
+  esEdicion: false,
   selectSubCategoria: (id) => set((state) => ({
     selectedSubCategoria: state.subCategorias.find((sub) => sub.id === id) || null
   })),
@@ -61,4 +68,7 @@ export const useSubCategoriasStore = create<State>((set) => ({
   updateSelectedSubCategoria: (updatedSubCategoria) => set((state) => ({
     selectedSubCategoria: updatedSubCategoria,
   })),
+
+  startEdicion: () => set({ esEdicion: true }),
+  endEdicion: () => set({ esEdicion: false }),
 }));

@@ -1,5 +1,5 @@
 'use client';
-import React, { Key, useCallback, useMemo, useState, ChangeEvent } from "react";
+import React, { Key, useCallback, useMemo, useState, ChangeEvent, ReactNode } from "react";
 import {
     Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button, DropdownTrigger, Dropdown, DropdownMenu,
     DropdownItem, Pagination, Selection, SortDescriptor,
@@ -27,6 +27,7 @@ interface UiTableProps {
     esSeleccion?: boolean;
     tieneFuncion?: boolean;
     funcionBoton?: (key: number) => void;
+    aditionalButton?: ReactNode; // Nueva propiedad para el botón personalizado
 }
 
 export const TablaDinamica: React.FC<UiTableProps> = (
@@ -36,7 +37,8 @@ export const TablaDinamica: React.FC<UiTableProps> = (
       needOpenModal = false,
       esSeleccion = false,
       tieneFuncion = false,
-      funcionBoton
+      funcionBoton,
+      aditionalButton
     }
 ) => {
 
@@ -189,32 +191,8 @@ export const TablaDinamica: React.FC<UiTableProps> = (
                         onValueChange={onSearchChange}
                     />
                     <div className="flex gap-3">
-                        <Dropdown>
-                            <DropdownTrigger className="hidden sm:flex">
-                                <Button
-                                    endContent={<IoChevronDownCircleOutline className="text-small" />}
-                                    size="sm"
-                                    variant="flat"
-                                >
-                                    Columnas
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                                disallowEmptySelection
-                                aria-label="Table Columns"
-                                closeOnSelect={false}
-                                selectedKeys={visibleColumns}
-                                selectionMode="multiple"
-                                onSelectionChange={setVisibleColumns}
-                            >
-                                {columnas.map((column: { uid: string | number | undefined; label: any; }) => (
-                                    <DropdownItem key={column.uid} className="capitalize">
-                                        {capitalize(column.label)}
-                                    </DropdownItem>
-                                ))}
-                            </DropdownMenu>
-                        </Dropdown>
-                        <Button onClick={() => { ExportCSV(data, 'MatenimientoUsuarios') }} size="sm" color="success" endContent={<RiFileExcel2Fill />} className="p-2">Exportar CSV</Button>
+                        <Button onClick={() => { ExportCSV(data, 'MatenimientoUsuarios') }}  color="primary"  endContent={<RiFileExcel2Fill />} className="p-2 text-white">Exportar CSV</Button>
+                        {aditionalButton}
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
