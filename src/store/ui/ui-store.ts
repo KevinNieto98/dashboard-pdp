@@ -36,18 +36,20 @@ export const useUIStore = create<State>()((set) => ({
   isSideMenuOpen: false,
   confirmacion: false,
   esVisibleAlerta: false,
+  isModalOpen: false,
+
+  
   openSideMenu: () => set({ isSideMenuOpen: true }),
   closeSideMenu: () => set({ isSideMenuOpen: false }),
 
   mostrarAlerta: () => set({ esVisibleAlerta: true }),
   ocultarAlerta: () => set({ esVisibleAlerta: false }),
 
-  isModalOpen: false,
   openModal: () => set({ isModalOpen: true }),
   closeModal: () => set({ isModalOpen: false }),
 
   startConfirmacion: () => set({ isModalOpen: true }),
-  endConfirmacion: () => set({ isModalOpen: true }),
+  endConfirmacion: () => set({ isModalOpen: false }),
 
   openModalConfirmacion: () => set({ isModalConfirmacion: true }),
   closeModalConfirmacion: () => set({ isModalConfirmacion: false }),

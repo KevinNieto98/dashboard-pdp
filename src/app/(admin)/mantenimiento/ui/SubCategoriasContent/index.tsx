@@ -4,6 +4,8 @@ import { Button, Input } from "@nextui-org/react";
 import { useSubCategoriasStore } from "../../store";
 import { useUIStore } from "@/store";
 import { ContenidoModal } from "../ModalContent";
+import { FooterModal } from "../FooterModal";
+import { useEffect } from "react";
 
 export const SubCategoriasContent = () => {
     const getSubCategorias = useSubCategoriasStore((state) => state.getSubCategorias);
@@ -11,7 +13,9 @@ export const SubCategoriasContent = () => {
     const selectSubCategoria = useSubCategoriasStore((state) => state.selectSubCategoria);
     const openModal = useUIStore((state) => state.openModal);
 
-    getSubCategorias(subCategorias);
+    useEffect(() => {
+        getSubCategorias(subCategorias);
+      }, [getSubCategorias, subCategorias]);
     
     const updateSubcategoria = (key: number) => {
         if (key >= 0 && key < subCategorias.length) {
@@ -49,6 +53,7 @@ export const SubCategoriasContent = () => {
                 esEjemplo={false}
                 titulo="Mantenimiento de Sub-Categorias"
                 children={<ContenidoModal />}
+                footer={<FooterModal />}
             />
         </div>
     );

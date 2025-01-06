@@ -58,7 +58,7 @@ export const ModalEdit: React.FC<Inputs> = ({ size = "5xl" , titulo,  data, esEj
 
                                 </ModalBody>
                                 <ModalFooter 
-                                    className="flex justify-between"
+                                    className="flex justify-end gap-2"
                                 >
                                     {
                                         esEjemplo ? 

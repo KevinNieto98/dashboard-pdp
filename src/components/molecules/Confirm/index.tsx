@@ -25,20 +25,16 @@ export function Confirm({
 	rejectText
 }: Props) {
 
-
 	const isModalConfirmacion = useUIStore((state) => state.isModalConfirmacion);
 	const closeModalConfirmacion = useUIStore((state) => state.closeModalConfirmacion);
+	const closeModal = useUIStore((state) => state.closeModal);
 	const startConfirmacion = useUIStore((state) => state.startConfirmacion);
-	const { isOpen, onOpen, onOpenChange }: any = useDisclosure();
 
 	const handleConfirm = () => {
-        console.log('LLEGO AQUI 4');
 		funcionConfrm();
-		console.log('LLEGO AQUI 5'); // Ejecutar la función pasada por props
 		startConfirmacion();
-		console.log('LLEGO AQUI 6');
 		closeModalConfirmacion(); 
-		console.log('LLEGO AQUI 7');// Cerrar el modal después de confirmar
+		closeModal(); 
 	};
 
 	return (

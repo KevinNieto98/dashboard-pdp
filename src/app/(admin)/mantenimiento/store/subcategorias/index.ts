@@ -1,26 +1,28 @@
 import { create } from 'zustand';
+
 const data = [
-    {
-        id: 1,
-        name: "Educativos",
-        activo: true
-    },
-    {
-        id: 2,
-        name: "Manualidades",
-        activo: false
-    },
-    {
-        id: 3,
-        name: "Rompecabezas",
-        activo: true
-    },
-    {
-        id: 4,
-        name: "Juegos de Meza",
-        activo: false
-    },
-]
+  {
+    id: 1,
+    name: "Educativos",
+    activo: true
+  },
+  {
+    id: 2,
+    name: "Manualidades",
+    activo: false
+  },
+  {
+    id: 3,
+    name: "Rompecabezas",
+    activo: true
+  },
+  {
+    id: 4,
+    name: "Juegos de Meza",
+    activo: false
+  },
+];
+
 interface State {
   subCategorias: any[];
   selectedSubCategoria: any;
@@ -28,9 +30,10 @@ interface State {
   selectSubCategoria: (id: number | string) => void;
   deleteSubCategoria: (id: number | string) => void;
   addSubCategoria: (subCategoria: any) => void;
-  updateSubCategoria: (id: number | string, subCategoria: any) => void;
+  updateSubCategoria: (id: number | string) => void;
   getSubCategorias: (subCategorias: any[]) => void;
   getSubcategoryUnique: (id: number | string) => any;
+  updateSelectedSubCategoria: (updatedSubCategoria: any) => void;
 }
 
 export const useSubCategoriasStore = create<State>((set) => ({
@@ -46,13 +49,16 @@ export const useSubCategoriasStore = create<State>((set) => ({
   addSubCategoria: (subCategoria) => set((state) => ({
     subCategorias: [...state.subCategorias, subCategoria],
   })),
-  updateSubCategoria: (id, updatedSubCategoria) => set((state) => ({
+  updateSubCategoria: (id) => set((state) => ({
     subCategorias: state.subCategorias.map((sub) =>
-      sub.id === id ? updatedSubCategoria : sub
+      sub.id === id ? state.selectedSubCategoria : sub
     ),
   })),
   getSubCategorias: (subCategorias) => set({ subCategorias }),
   getSubcategoryUnique: (id) => set((state) => 
     state.subCategorias.find((sub) => sub.id === id)
   ),
+  updateSelectedSubCategoria: (updatedSubCategoria) => set((state) => ({
+    selectedSubCategoria: updatedSubCategoria,
+  })),
 }));

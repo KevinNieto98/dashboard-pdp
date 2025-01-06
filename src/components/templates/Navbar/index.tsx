@@ -18,7 +18,7 @@ export const NavbarComponent = () => {
 
   };
   return (
-    <Navbar position="sticky" className="bg-purple-800 text-white ">
+    <Navbar position="sticky" className="bg-blue-800 text-white ">
       <NavbarBrand>
         <IconButton  
           aria-label='Menu'
