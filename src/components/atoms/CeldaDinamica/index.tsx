@@ -13,18 +13,8 @@ export const CeldaDinamica = ({
         value, 
         tieneFuncion, 
         funcionBoton }: CeldaProps) => {
-    console.log('value',value, 'tieneFuncion',tieneFuncion, 'funcionBoton',funcionBoton);
-    
-    const openModal = useUIStore((state) => state.openModal);
 
-    const handleClick =()=>{
-        const splitValue = value.split('[');
-        const number = parseInt(splitValue[1].slice(0, -1)); 
-        console.log('value',number);
-        openModal()
- 
-         
-    }
+
     if (typeof value === 'boolean') {
         return (
             <Chip className="capitalize" color={value ? "success" : "danger"} size="sm" variant="flat">

@@ -1,20 +1,24 @@
 'use client'
 
-import { AlertRegion, Confirm, Icon } from "@/components";
+import { Confirm, Icon } from "@/components";
 import { useUIStore } from "@/store";
 import { Button } from "@nextui-org/react";
 import { useSubCategoriasStore } from "../../store";
 import { useEffect } from "react";
 
 export const FooterModal =  () => {
-    const openModalConfirmacion = useUIStore((state) => state.openModalConfirmacion);
-    const mostrarAlerta = useUIStore((state) => state.mostrarAlerta);
-    const selectedSubCategoria = useSubCategoriasStore((state) => state.selectedSubCategoria);
-    const updateSubCategoria = useSubCategoriasStore((state) => state.updateSubCategoria);
-    const addSubCategoria = useSubCategoriasStore((state) => state.addSubCategoria);
-    const esEdicion = useSubCategoriasStore((state) => state.esEdicion);
-    const subCategorias = useSubCategoriasStore((state) => state.subCategorias);
-
+    const { openModalConfirmacion, mostrarAlerta } = useUIStore((state) => ({
+        openModalConfirmacion: state.openModalConfirmacion,
+        mostrarAlerta: state.mostrarAlerta,
+      }));
+      
+      const { selectedSubCategoria, updateSubCategoria, addSubCategoria, esEdicion, subCategorias } = useSubCategoriasStore((state) => ({
+        selectedSubCategoria: state.selectedSubCategoria,
+        updateSubCategoria: state.updateSubCategoria,
+        addSubCategoria: state.addSubCategoria,
+        esEdicion: state.esEdicion,
+        subCategorias: state.subCategorias,
+      }));
   
 
     useEffect(() => {

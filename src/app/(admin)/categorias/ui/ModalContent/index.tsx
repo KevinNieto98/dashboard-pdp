@@ -6,10 +6,11 @@ import { Input, Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 export const ContenidoModal = () => {
-  const selectedSubCategoria = useSubCategoriasStore((state) => state.selectedSubCategoria);
-  const updateSelectedSubCategoria = useSubCategoriasStore((state) => state.updateSelectedSubCategoria);
-  const esEdicion = useSubCategoriasStore((state) => state.esEdicion);
-
+  const { selectedSubCategoria, updateSelectedSubCategoria, esEdicion } = useSubCategoriasStore((state) => ({
+    selectedSubCategoria: state.selectedSubCategoria,
+    updateSelectedSubCategoria: state.updateSelectedSubCategoria,
+    esEdicion: state.esEdicion,
+  }));
   const { id, name, activo } = selectedSubCategoria;
 
   const [localName, setLocalName] = useState('');

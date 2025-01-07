@@ -1,6 +1,6 @@
 'use client'
 import { Icon, ModalEdit, TablaDinamica } from "@/components";
-import { Button, Input } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useSubCategoriasStore } from "../../store";
 import { useUIStore } from "@/store";
 import { ContenidoModal } from "../ModalContent";
@@ -8,13 +8,17 @@ import { FooterModal } from "../FooterModal";
 import { useEffect } from "react";
 
 export const SubCategoriasContent = () => {
-    const getSubCategorias = useSubCategoriasStore((state) => state.getSubCategorias);
-    const subCategorias = useSubCategoriasStore((state) => state.subCategorias);
-    const selectSubCategoria = useSubCategoriasStore((state) => state.selectSubCategoria);
-    const siEsEdicion = useSubCategoriasStore((state) => state.siEsEdicion);
-    const noEsEdicion = useSubCategoriasStore((state) => state.noEsEdicion);
-    const openModal = useUIStore((state) => state.openModal);
-
+    const { getSubCategorias, subCategorias, selectSubCategoria, siEsEdicion, noEsEdicion } = useSubCategoriasStore((state) => ({
+        getSubCategorias: state.getSubCategorias,
+        subCategorias: state.subCategorias,
+        selectSubCategoria: state.selectSubCategoria,
+        siEsEdicion: state.siEsEdicion,
+        noEsEdicion: state.noEsEdicion,
+      }));
+      
+      const { openModal } = useUIStore((state) => ({
+        openModal: state.openModal,
+      }));
     useEffect(() => {
         getSubCategorias(subCategorias);
       }, [getSubCategorias, subCategorias]);
@@ -22,8 +26,6 @@ export const SubCategoriasContent = () => {
     const updateSubcategoria = (key: number) => {
         if (key >= 0 && key < subCategorias.length) {
             const subcategoriaSeleccionada = subCategorias[key].id;
-            console.log('subcategoriaSeleccionada: ', subcategoriaSeleccionada);
-            
             selectSubCategoria(subcategoriaSeleccionada);
         } 
         openModal();

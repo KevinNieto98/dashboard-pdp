@@ -24,8 +24,7 @@ export const ModalEdit: React.FC<Inputs> = ({ size = "5xl" , titulo,  data, esEj
     const closeModal = useUIStore((state) => state.closeModal);
     const openModal = useUIStore((state) => state.openModal);
 
-    //   // console.log(watch('nombre')) //note: esto me sirve para observar el comportamiennto de un input cada vez que se altera
-    function publish(formData: any) {
+     function publish(formData: any) {
         const content = formData.get("content");
         const button = formData.get("button");
         alert(`'${content}' was published with the '${button}' button`);

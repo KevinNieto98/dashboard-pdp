@@ -87,7 +87,6 @@ export const TablaDinamica: React.FC<UiTableProps> = (
 
     const filteredItems = useMemo(() => {
         let filteredRows = data ? [...data] : [];
-        console.log('filteredRows', filteredRows);
         
         if (hasSearchFilter) {
             filteredRows = filteredRows.filter((data) =>

@@ -78,16 +78,16 @@ export const DrawerComponent = () => {
               <span className="ml-3 text-xl">Cupones</span>
             </Link>
             <Link
-              href="/mantenimiento"
+              href="/categorias"
               className="flex items-center mt-2 p-2 hover:bg-gray-100 rounded transition-all"
               onClick={closeSideMenu}
             >
               <Icon
-                name="FaTools"
+                name="FaClipboardList"
                 className="text-2xl"
               />
               
-              <span className="ml-3 text-xl">Mantenimiento</span>
+              <span className="ml-3 text-xl">Categorias</span>
             </Link>
 
           </DrawerBody>

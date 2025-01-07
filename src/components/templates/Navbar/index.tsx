@@ -8,15 +8,9 @@ import Link from 'next/link';
 
 
 export const NavbarComponent = () => {
-  const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
-  const openSideMenu = useUIStore((state) => state.openSideMenu);
+ const openSideMenu = useUIStore((state) => state.openSideMenu);
 
-  const prueba = () => {
-    openSideMenu()
-    console.log(isSideMenuOpen);
-    console.log('isSideMenuOpen');
 
-  };
   return (
     <Navbar position="sticky" className="bg-blue-800 text-white ">
       <NavbarBrand>
