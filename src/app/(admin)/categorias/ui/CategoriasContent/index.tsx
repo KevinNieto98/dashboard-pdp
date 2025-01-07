@@ -1,143 +1,71 @@
 'use client'
-import { AlertRegion, TablaDinamica } from "@/components";
-import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
-import { SubCategoriasContent } from "../SubCategoriasContent";
+import { Icon, ModalEdit, TablaDinamica } from "@/components";
 
-
-
-const data = [
-    {
-        id: 1,
-        nombre: "Diezmo",
-        activo: true,
-        descripcion: 'Descripcion de diezmo',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 2,
-        nombre: "Ofrenda2",
-        activo: false,
-        descripcion: 'Descripcion de Ofrenda',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 3,
-        nombre: "Diezmo3",
-        activo: true,
-        descripcion: 'Descripcion de diezmo',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 4,
-        nombre: "Ofrend4",
-        activo: false,
-        descripcion: 'Descripcion de Ofrenda',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 5,
-        nombre: "Diezmo5",
-        activo: true,
-        descripcion: 'Descripcion de diezmo',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 6,
-        nombre: "Ofrenda6",
-        activo: false,
-        descripcion: 'Descripcion de Ofrenda',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 7,
-        nombre: "Diezmo7",
-        activo: true,
-        descripcion: 'Descripcion de diezmo',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 8,
-        nombre: "Ofrenda8",
-        activo: false,
-        descripcion: 'Descripcion de Ofrenda',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 9,
-        nombre: "Diezmo9",
-        activo: true,
-        descripcion: 'Descripcion de diezmo',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 10,
-        nombre: "Ofrenda10",
-        activo: false,
-        descripcion: 'Descripcion de Ofrenda',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 11,
-        nombre: "Diezmo11",
-        activo: true,
-        descripcion: 'Descripcion de diezmo',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 12,
-        nombre: "Ofrenda12",
-        activo: false,
-        descripcion: 'Descripcion de Ofrenda',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 13,
-        nombre: "Diezmo13",
-        activo: true,
-        descripcion: 'Descripcion de diezmo',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 14,
-        nombre: "Ofrenda14",
-        activo: false,
-        descripcion: 'Descripcion de Ofrenda',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 15,
-        nombre: "Diezmo15",
-        activo: true,
-        descripcion: 'Descripcion de diezmo',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 16,
-        nombre: "Ofrenda16",
-        activo: false,
-        descripcion: 'Descripcion de Ofrenda',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 17,
-        nombre: "Diezmo17",
-        activo: true,
-        descripcion: 'Descripcion de diezmo',
-        usuarioIngresa: 'Kevin ',
-    },
-    {
-        id: 18,
-        nombre: "Ofrenda18",
-        activo: false,
-        descripcion: 'Descripcion de Ofrenda',
-        usuarioIngresa: 'Kevin ',
-    },
-    
-]
+import { FooterModal } from "../FooterModal";
+import { Button } from "@nextui-org/react";
+import { useCategoriasStore, useSubCategoriasStore } from "../../store";
+import { ContenidoModal } from "../ModalContent";
+import { useUIStore } from "@/store";
 
 export const CategoriasContent = () => {
+        const { 
+             siEsEdicion, 
+        } = useSubCategoriasStore((state) => ({
+
+            siEsEdicion: state.siEsEdicion,
+            noEsEdicion: state.noEsEdicion,
+          }));
+          
+          const { openModal } = useUIStore((state) => ({
+            openModal: state.openModal,
+          }));
+    const {
+        categorias,
+        selectCategoria,
+        selectTipo
+    } = useCategoriasStore((state) => ({
+        categorias: state.categorias,
+        selectCategoria: state.selectCategoria,
+        selectTipo: state.selectTipo,
+    }));
+    
+    const updateCategoria = (key: number) => {
+        if (key >= 0 && key < categorias.length) {
+            const categoriaSeleccionada = categorias[key].id;
+            selectCategoria(categoriaSeleccionada);
+        }
+        siEsEdicion();
+        selectTipo('categoria');
+        openModal();
+    };
     return (
-      <>
-      </>
+        <div className="p-4">
+            <TablaDinamica
+                data={categorias}
+                tieneFuncion={true}
+                needOpenModal={true}
+                funcionBoton = {updateCategoria}
+                aditionalButton={
+                    <Button
+                        color="success"
+                        className="text-white"
+                        //onPress={crearSubcategoria}
+                        startContent={
+                            <Icon
+                                name="FaPlus"
+                            />
+                        }
+                    >
+                        Agregar
+                    </Button>
+                }
+            />
+            <ModalEdit
+                esEjemplo={false}
+                titulo="Mantenimiento de Sub-Categorias"
+                children={<ContenidoModal />}
+                footer={<FooterModal />}
+            />
+        </div>
     );
 }

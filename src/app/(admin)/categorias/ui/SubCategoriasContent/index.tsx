@@ -1,11 +1,11 @@
 'use client'
 import { Icon, ModalEdit, TablaDinamica } from "@/components";
 import { Button } from "@nextui-org/react";
-import { useSubCategoriasStore } from "../../store";
+import { useCategoriasStore, useSubCategoriasStore } from "../../store";
 import { useUIStore } from "@/store";
-import { ContenidoModal } from "../ModalContent";
 import { FooterModal } from "../FooterModal";
 import { useEffect } from "react";
+import { ContenidoModal } from "../ModalContent";
 
 export const SubCategoriasContent = () => {
     const { getSubCategorias, subCategorias, selectSubCategoria, siEsEdicion, noEsEdicion } = useSubCategoriasStore((state) => ({
@@ -15,10 +15,17 @@ export const SubCategoriasContent = () => {
         siEsEdicion: state.siEsEdicion,
         noEsEdicion: state.noEsEdicion,
       }));
+
+    const {
+            selectTipo
+    } = useCategoriasStore((state) => ({
+            selectTipo: state.selectTipo,
+        }));
       
       const { openModal } = useUIStore((state) => ({
         openModal: state.openModal,
       }));
+
     useEffect(() => {
         getSubCategorias(subCategorias);
       }, [getSubCategorias, subCategorias]);
@@ -28,6 +35,7 @@ export const SubCategoriasContent = () => {
             const subcategoriaSeleccionada = subCategorias[key].id;
             selectSubCategoria(subcategoriaSeleccionada);
         } 
+        selectTipo('subcategoria');
         openModal();
         siEsEdicion();
     };

@@ -24,7 +24,7 @@ const data = [
       ]
     },
     {
-        id: 1,
+        id: 2,
         name: "Hogar",
         activo: true ,
         subCategorias: [
@@ -46,7 +46,7 @@ const data = [
         ]
       },
       {
-        id: 1,
+        id: 3,
         name: "Tecnologia",
         activo: true ,
         subCategorias: [
@@ -71,8 +71,35 @@ const data = [
 
   interface State {
     categorias: any[];
+    selectedCategoria: any;
+    esEdicion: boolean,
+    selectCategoria: (id: number | string) => void;
+    selectTipo: (tipo:  string) => void;
+    siEsEdicion: () => void;
+    noEsEdicion: () => void;
+    tipo: string;
+
   }
   
   export const useCategoriasStore = create<State>((set) => ({
     categorias: data,
+    tipo: 'categoria',
+    selectTipo: (tipo) => set({ tipo: tipo }),
+    
+    selectedCategoria:   {
+        id: null,
+        name: "",
+        activo: false,
+        subCategorias: []
+      },
+      esEdicion: false,
+      selectCategoria: (id) => set((state) => ({
+        selectedCategoria: state.categorias.find((sub) => sub.id === id) || null
+      })),
+      
+
+      siEsEdicion: () => set({ esEdicion: true }),
+      noEsEdicion: () => set({ esEdicion: false }),
+    
+
   }));

@@ -122,6 +122,9 @@ export const TablaDinamica: React.FC<UiTableProps> = (
 
     const renderCell = useCallback((rows: Rows, columnKey: Key) => {
         const cellValue = rows[columnKey as keyof Rows];
+        if (Array.isArray(cellValue)) {
+            return  cellValue.length; // Ignorar celdas que contienen arrays
+        }
         if (typeof cellValue === 'boolean') {
             return (
                 <Switch isSelected={cellValue} isDisabled>
