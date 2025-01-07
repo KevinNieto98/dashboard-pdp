@@ -11,6 +11,8 @@ export const SubCategoriasContent = () => {
     const getSubCategorias = useSubCategoriasStore((state) => state.getSubCategorias);
     const subCategorias = useSubCategoriasStore((state) => state.subCategorias);
     const selectSubCategoria = useSubCategoriasStore((state) => state.selectSubCategoria);
+    const siEsEdicion = useSubCategoriasStore((state) => state.siEsEdicion);
+    const noEsEdicion = useSubCategoriasStore((state) => state.noEsEdicion);
     const openModal = useUIStore((state) => state.openModal);
 
     useEffect(() => {
@@ -24,6 +26,12 @@ export const SubCategoriasContent = () => {
             
             selectSubCategoria(subcategoriaSeleccionada);
         } 
+        openModal();
+        siEsEdicion();
+    };
+
+    const crearSubcategoria = () => {
+        noEsEdicion();
         openModal();
     };
 
@@ -39,7 +47,7 @@ export const SubCategoriasContent = () => {
                     <Button
                     color="success"
                     className="text-white"
-                    onPress={openModal}
+                    onPress={crearSubcategoria}
                     startContent={
                         <Icon
                             name="FaPlus"

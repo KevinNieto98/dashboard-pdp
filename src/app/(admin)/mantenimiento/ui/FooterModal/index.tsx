@@ -10,6 +10,11 @@ export const FooterModal =  () => {
     const openModalConfirmacion = useUIStore((state) => state.openModalConfirmacion);
     const selectedSubCategoria = useSubCategoriasStore((state) => state.selectedSubCategoria);
     const updateSubCategoria = useSubCategoriasStore((state) => state.updateSubCategoria);
+    const addSubCategoria = useSubCategoriasStore((state) => state.addSubCategoria);
+    const esEdicion = useSubCategoriasStore((state) => state.esEdicion);
+    const subCategorias = useSubCategoriasStore((state) => state.subCategorias);
+
+  
 
     useEffect(() => {
         if (selectedSubCategoria) {
@@ -19,8 +24,13 @@ export const FooterModal =  () => {
     
 
         const submitCategory = () => {      
-            console.log('selectedSubCategoria: ', selectedSubCategoria);
-            updateSubCategoria(selectedSubCategoria.id);
+            if (esEdicion) {
+                updateSubCategoria(selectedSubCategoria.id);
+            }else{
+                const maxId = subCategorias.reduce((max, item) => (item.id > max ? item.id : max), subCategorias[0].id);
+                addSubCategoria({id:maxId +1,name: selectedSubCategoria.name, activo: selectedSubCategoria.activo});
+            }
+           
             
           };
 

@@ -34,8 +34,8 @@ interface State {
   getSubCategorias: (subCategorias: any[]) => void;
   getSubcategoryUnique: (id: number | string) => any;
   updateSelectedSubCategoria: (updatedSubCategoria: any) => void;
-  startEdicion: () => void;
-  endEdicion: () => void;
+  siEsEdicion: () => void;
+  noEsEdicion: () => void;
 }
 
 export const useSubCategoriasStore = create<State>((set) => ({
@@ -69,6 +69,6 @@ export const useSubCategoriasStore = create<State>((set) => ({
     selectedSubCategoria: updatedSubCategoria,
   })),
 
-  startEdicion: () => set({ esEdicion: true }),
-  endEdicion: () => set({ esEdicion: false }),
+  siEsEdicion: () => set({ esEdicion: true }),
+  noEsEdicion: () => set({ esEdicion: false }),
 }));
