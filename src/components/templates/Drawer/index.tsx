@@ -3,19 +3,13 @@
 
 import { Icon } from "@/components/atoms";
 import { useUIStore } from "@/store";
-import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay } from "@chakra-ui/react";
+import {  Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay } from "@chakra-ui/react";
 import Link from "next/link";
-
 import React from "react";
-import { GrMoney } from "react-icons/gr";
-import { IoShirtOutline } from "react-icons/io5";
-import { PiPlantBold } from "react-icons/pi";
-import { TbMoneybag, TbTool } from "react-icons/tb";
 
 
 export const DrawerComponent = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
-  const openSideMenu = useUIStore((state) => state.openSideMenu);
   const closeSideMenu = useUIStore((state) => state.closeSideMenu);
 
 

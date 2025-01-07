@@ -137,38 +137,7 @@ const data = [
 
 export const CategoriasContent = () => {
     return (
-        <div className="p-4">
-            <AlertRegion/> 
-            <Text
-                as='b'
-                fontSize='2xl'
-            >
-                Categorias
-            </Text>
-
-            <Text
-                className="pt-4 pb-4"
-            >
-                Pagina para administrar las categorias de los productos.
-            </Text>
-            <Tabs>
-                <TabList>
-                    <Tab>Categorias</Tab>
-                    <Tab>Sub-Categorias</Tab>
-                </TabList>
-
-                <TabPanels>
-                    <TabPanel>
-                        <TablaDinamica  data={data}/>
-                    </TabPanel>
-                    <TabPanel>
-                        <SubCategoriasContent/>
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>
-
-
-
-        </div>
+      <>
+      </>
     );
 }
