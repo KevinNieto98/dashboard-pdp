@@ -6,7 +6,7 @@ interface State {
   isModalConfirmacion: boolean;
   esVisibleAlerta: boolean;
 
-  mostrarAlerta: () => void;
+  mostrarAlerta: (titulo: string, mensaje: string, tipo: string)  => void;
   ocultarAlerta: () => void;
 
   openSideMenu: () => void;
@@ -27,7 +27,7 @@ interface State {
     titulo: string;
     mensaje: string;
     tipo: string;
-};
+  };
 }
 
 
@@ -38,11 +38,14 @@ export const useUIStore = create<State>()((set) => ({
   esVisibleAlerta: false,
   isModalOpen: false,
 
-  
+
   openSideMenu: () => set({ isSideMenuOpen: true }),
   closeSideMenu: () => set({ isSideMenuOpen: false }),
 
-  mostrarAlerta: () => set({ esVisibleAlerta: true }),
+  mostrarAlerta: (titulo: string, mensaje: string, tipo: string) => set({
+     esVisibleAlerta: true, 
+     alerta: { titulo, mensaje, tipo } 
+  }),
   ocultarAlerta: () => set({ esVisibleAlerta: false }),
 
   openModal: () => set({ isModalOpen: true }),
@@ -58,5 +61,5 @@ export const useUIStore = create<State>()((set) => ({
     titulo: '',
     mensaje: '',
     tipo: 'danger',
-},
+  },
 }));

@@ -1,5 +1,5 @@
 'use client'
-import { TablaDinamica } from "@/components";
+import { AlertRegion, TablaDinamica } from "@/components";
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { SubCategoriasContent } from "../SubCategoriasContent";
 
@@ -138,6 +138,7 @@ const data = [
 export const CategoriasContent = () => {
     return (
         <div className="p-4">
+            <AlertRegion/> 
             <Text
                 as='b'
                 fontSize='2xl'

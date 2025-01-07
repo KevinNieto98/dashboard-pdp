@@ -8,6 +8,7 @@ import { useEffect } from "react";
 
 export const FooterModal =  () => {
     const openModalConfirmacion = useUIStore((state) => state.openModalConfirmacion);
+    const mostrarAlerta = useUIStore((state) => state.mostrarAlerta);
     const selectedSubCategoria = useSubCategoriasStore((state) => state.selectedSubCategoria);
     const updateSubCategoria = useSubCategoriasStore((state) => state.updateSubCategoria);
     const addSubCategoria = useSubCategoriasStore((state) => state.addSubCategoria);
@@ -30,6 +31,7 @@ export const FooterModal =  () => {
                 const maxId = subCategorias.reduce((max, item) => (item.id > max ? item.id : max), subCategorias[0].id);
                 addSubCategoria({id:maxId +1,name: selectedSubCategoria.name, activo: selectedSubCategoria.activo});
             }
+            mostrarAlerta("Guardado", "Cambios guardados correctamente", "success");
            
             
           };
@@ -57,8 +59,6 @@ export const FooterModal =  () => {
                 confirmText="Sí" 
                 rejectText="No"  
             />
-
-            <AlertRegion/> 
         </>
         
     );
