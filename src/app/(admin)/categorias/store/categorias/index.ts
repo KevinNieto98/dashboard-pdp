@@ -29,17 +29,17 @@ const data = [
         activo: true ,
         subCategorias: [
           {
-              id: 2,
+              id: 5,
               name: "Electrodomesticos",
               activo: false
             },
             {
-              id: 3,
+              id: 6,
               name: "Dormitorios",
               activo: true
             },
             {
-              id: 4,
+              id: 7,
               name: "Exteriores",
               activo: false
             },
@@ -51,17 +51,17 @@ const data = [
         activo: true ,
         subCategorias: [
           {
-              id: 2,
+              id: 8,
               name: "Celulares",
               activo: false
             },
             {
-              id: 3,
+              id: 9,
               name: "Cables",
               activo: true
             },
             {
-              id: 4,
+              id: 10,
               name: "Accesorios",
               activo: false
             },
@@ -78,6 +78,9 @@ const data = [
     siEsEdicion: () => void;
     noEsEdicion: () => void;
     tipo: string;
+    values: Set<string>;
+    setValues: (values: Set<string>) => void;
+    setValuesEnEdicion: (values: Set<string>) => void;
 
   }
   
@@ -100,6 +103,9 @@ const data = [
 
       siEsEdicion: () => set({ esEdicion: true }),
       noEsEdicion: () => set({ esEdicion: false }),
+      values: new Set<string>(),
+      setValues: (values) => set({ values }),
+      setValuesEnEdicion: (values) => set({ values:values }),
     
 
   }));

@@ -21,6 +21,36 @@ const data = [
     name: "Juegos de Meza",
     activo: false
   },
+  {
+    id: 5,
+    name: "Electrodomesticos",
+    activo: false
+  },
+  {
+    id: 6,
+    name: "Dormitorios",
+    activo: true
+  },
+  {
+    id: 7,
+    name: "Exteriores",
+    activo: false
+  },
+  {
+    id: 8,
+    name: "Celulares",
+    activo: false
+  },
+  {
+    id: 9,
+    name: "Cables",
+    activo: true
+  },
+  {
+    id: 10,
+    name: "Accesorios",
+    activo: false
+  },
 ];
 
 interface State {

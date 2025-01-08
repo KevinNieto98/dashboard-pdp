@@ -2,7 +2,7 @@
 
 import { Header } from "@/components";
 import { useCategoriasStore, useSubCategoriasStore } from "../../store";
-import { Button, Chip, Input, Select, SelectItem, Switch } from "@nextui-org/react";
+import {  Chip, Input, Select, SelectItem, Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 
 interface SubCategoria {
@@ -11,27 +11,51 @@ interface SubCategoria {
   activo: boolean;
 }
 export const ContenidoModal = () => {
-  const [values, setValues] = useState<Set<string>>(new Set([]));
 
-  const { selectedSubCategoria, updateSelectedSubCategoria, esEdicion } = useSubCategoriasStore((state) => ({
+
+  const { 
+    selectedSubCategoria, 
+    updateSelectedSubCategoria, 
+    esEdicion ,
+    subCategorias
+  } = useSubCategoriasStore((state) => ({
     selectedSubCategoria: state.selectedSubCategoria,
     updateSelectedSubCategoria: state.updateSelectedSubCategoria,
     esEdicion: state.esEdicion,
+    subCategorias: state.subCategorias,
+
+
   }));
 
   const {
     selectedCategoria,
-    tipo
+    tipo,
+    values, 
+    setValues,
+    setValuesEnEdicion
   } = useCategoriasStore((state) => ({
     selectedCategoria: state.selectedCategoria,
-    tipo: state.tipo
+    tipo: state.tipo,
+    values: state.values,
+    setValues: state.setValues,
+    setValuesEnEdicion: state.setValuesEnEdicion
   }));
 
   let elementos = [];
-  let subCategorias: SubCategoria[] = [];
+  let subCategoriasSelected: SubCategoria[] = [];
   if (tipo == 'categoria') {
     elementos = selectedCategoria;
-    subCategorias = selectedCategoria.subCategorias;
+
+    useEffect(() => {
+      if (selectedCategoria && selectedCategoria.subCategorias) {
+        const subCategoriaIds = selectedCategoria.subCategorias.map((subCategoria: SubCategoria) => subCategoria.id.toString());
+        setValues(subCategoriaIds);
+      }
+    }, [selectedCategoria, setValues]);
+  
+    
+
+  
   } else {
     elementos = selectedSubCategoria;
   }
@@ -63,10 +87,6 @@ export const ContenidoModal = () => {
   const handleSwitchChange = (value: boolean) => {
     setIsSelected(value);
     updateSelectedSubCategoria({ ...selectedSubCategoria, activo: value });
-  };
-
-  const validador = () => {
-    console.log('values', values);
   };
 
 
@@ -128,9 +148,6 @@ export const ContenidoModal = () => {
                 </SelectItem>
               )}
             </Select>
-            <Button
-              onPress={validador}
-            />
           </>
         )}
       </div>
