@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { Categoria } from "../../interfaces";
 
 const data = [
     {
@@ -83,6 +84,9 @@ const data = [
     setValuesEnEdicion: (values: Set<string>) => void;
     getCategorias: (categorias: any[]) => void;
 
+    updateCategoria: (id: number, newCategoria: Categoria) => void;
+    updateSelectedCategoria: (updatedCategoria: any) => void;
+
   }
   
   export const useCategoriasStore = create<State>((set) => ({
@@ -109,5 +113,12 @@ const data = [
       setValuesEnEdicion: (values) => set({ values:values }),
       getCategorias: (categorias) => set({ categorias }),
     
-
+      updateCategoria: (id, newCategoria) => set((state) => ({
+        categorias: state.categorias.map((categoria) =>
+          categoria.id === id ? newCategoria : categoria
+        ),
+      })),
+      updateSelectedCategoria: (updatedCategoria) => set((state) => ({
+        selectedCategoria: updatedCategoria,
+      })),
   }));

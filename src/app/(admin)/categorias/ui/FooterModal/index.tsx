@@ -27,9 +27,15 @@ export const FooterModal =  () => {
       }));
 
       const { 
-        tipo 
+        tipo,
+        values,
+        selectedCategoria,
+        updateCategoria
         } = useCategoriasStore((state) => ({
             tipo: state.tipo,
+            values: state.values,
+            selectedCategoria: state.selectedCategoria,
+            updateCategoria: state.updateCategoria,
 
       }));
   
@@ -44,8 +50,22 @@ export const FooterModal =  () => {
 
         const submitCategory = () => { 
             if (tipo === 'categoria') {
-                //todo: addCategoria and updateCategoria
-                return;
+                if (esEdicion) {
+                    const selectedSubCategorias = subCategorias.filter(subCategoria =>
+                        values.has(subCategoria.id.toString()) // Usar el método `has` si `values` es un `Set`
+                      );
+                      const {id, name, activo} = selectedCategoria;
+                      const categoriaActualizada = {
+                        id:id, 
+                        name: name, 
+                        activo: activo, 
+                        subCategorias: selectedSubCategorias};
+                        console.log('selectedSubCategorias', categoriaActualizada);
+                        updateCategoria(id, categoriaActualizada);
+                    //updateSubCategoria(selectedSubCategoria.id);
+                }else{
+                   //TODO: Agregar categoria              
+                }
             } else{
                 if (esEdicion) {
                     updateSubCategoria(selectedSubCategoria.id);

@@ -29,39 +29,48 @@ export const ContenidoModal = () => {
     tipo,
     values, 
     setValues,
+    updateSelectedCategoria
   } = useCategoriasStore((state) => ({
     selectedCategoria: state.selectedCategoria,
     tipo: state.tipo,
     values: state.values,
     setValues: state.setValues,
-    setValuesEnEdicion: state.setValuesEnEdicion
+    setValuesEnEdicion: state.setValuesEnEdicion,
+    updateSelectedCategoria: state.updateSelectedCategoria,
+
   }));
 
   let elementos = [];
   if (tipo == 'categoria') {
     elementos = selectedCategoria;
 
-    useEffect(() => {
-      if (selectedCategoria && selectedCategoria.subCategorias) {
-        // const subCategoriaIds = selectedCategoria.subCategorias
-        // .filter((subCategoria: SubCategoria) => subCategoria.activo) // Filtrar subcategorías activas
-        // .map((subCategoria: SubCategoria) => subCategoria.id.toString());
+  //   useEffect(() => {
+  //     if (selectedCategoria && selectedCategoria.subCategorias) {
+
+  //       const subCategoriaIds = selectedCategoria.subCategorias
+  //       .filter((subCategoria: SubCategoria) => 
+  //         subCategorias.some(sc => sc.id === subCategoria.id && sc.activo) // Filtrar subcategorías activas
+  //       )
+  //       .map((subCategoria: SubCategoria) => subCategoria.id.toString());
       
-        const subCategoriaIds = selectedCategoria.subCategorias
+  //       setValues(subCategoriaIds);
+  //     }
+  //   }, [selectedCategoria, setValues]);  
+  // } else {
+  //   elementos = selectedSubCategoria;
+
+
+  useEffect(() => {
+    if (selectedCategoria && Array.isArray(selectedCategoria.subCategorias)) {
+      const subCategoriaIds = selectedCategoria.subCategorias
         .filter((subCategoria: SubCategoria) => 
           subCategorias.some(sc => sc.id === subCategoria.id && sc.activo) // Filtrar subcategorías activas
         )
         .map((subCategoria: SubCategoria) => subCategoria.id.toString());
       
-        setValues(subCategoriaIds);
-      }
-    }, [selectedCategoria, setValues]);
-  
-    
-
-  
-  } else {
-    elementos = selectedSubCategoria;
+      setValues(new Set(subCategoriaIds)); // Actualizar el estado con un Set de IDs
+    }
+  }, [selectedCategoria, subCategorias, setValues]);
   }
 
   const { id, name, activo } = elementos;
@@ -84,14 +93,30 @@ export const ContenidoModal = () => {
   }, []);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalName(e.target.value);
-    updateSelectedSubCategoria({ ...selectedSubCategoria, name: e.target.value });
+    if (tipo == 'categoria') {
+      setLocalName(e.target.value);
+      updateSelectedCategoria({ ...selectedCategoria, name: e.target.value });
+
+    }else{
+      setLocalName(e.target.value);
+      updateSelectedSubCategoria({ ...selectedSubCategoria, name: e.target.value });
+
+    }
   };
 
   const handleSwitchChange = (value: boolean) => {
-    setIsSelected(value);
-    updateSelectedSubCategoria({ ...selectedSubCategoria, activo: value });
+    if (tipo == 'categoria') {
+      setIsSelected(value);
+      updateSelectedCategoria({ ...selectedCategoria, activo: value });
+
+    }else{
+      setIsSelected(value);
+      updateSelectedSubCategoria({ ...selectedSubCategoria, activo: value });
+
+    }
   };
+
+  
 
 
   const activeSubCategorias = subCategorias.filter((subCategoria: SubCategoria) => subCategoria.activo);
