@@ -123,7 +123,11 @@ export const TablaDinamica: React.FC<UiTableProps> = (
     const renderCell = useCallback((rows: Rows, columnKey: Key) => {
         const cellValue = rows[columnKey as keyof Rows];
         if (Array.isArray(cellValue)) {
-            return  cellValue.length; // Ignorar celdas que contienen arrays
+            return  cellValue.length;
+            // const activeCount = cellValue.filter((item: { activo: boolean }) => item.activo).length;
+            // return activeCount; 
+            
+            // Ignorar celdas que contienen arrays
         }
         if (typeof cellValue === 'boolean') {
             return (

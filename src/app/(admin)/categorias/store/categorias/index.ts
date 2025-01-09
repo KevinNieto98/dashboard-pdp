@@ -81,6 +81,7 @@ const data = [
     values: Set<string>;
     setValues: (values: Set<string>) => void;
     setValuesEnEdicion: (values: Set<string>) => void;
+    getCategorias: (categorias: any[]) => void;
 
   }
   
@@ -106,6 +107,7 @@ const data = [
       values: new Set<string>(),
       setValues: (values) => set({ values }),
       setValuesEnEdicion: (values) => set({ values:values }),
+      getCategorias: (categorias) => set({ categorias }),
     
 
   }));

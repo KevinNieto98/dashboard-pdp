@@ -17,9 +17,13 @@ export const SubCategoriasContent = () => {
       }));
 
     const {
-            selectTipo
+            selectTipo,
+            getCategorias,
+            categorias
     } = useCategoriasStore((state) => ({
             selectTipo: state.selectTipo,
+            getCategorias: state.getCategorias,
+            categorias: state.categorias,
         }));
       
       const { openModal } = useUIStore((state) => ({
@@ -28,6 +32,7 @@ export const SubCategoriasContent = () => {
 
     useEffect(() => {
         getSubCategorias(subCategorias);
+        getCategorias(categorias);
       }, [getSubCategorias, subCategorias]);
     
     const updateSubcategoria = (key: number) => {

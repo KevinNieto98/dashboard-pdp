@@ -4,12 +4,9 @@ import { Header } from "@/components";
 import { useCategoriasStore, useSubCategoriasStore } from "../../store";
 import {  Chip, Input, Select, SelectItem, Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+import { SubCategoria } from "../../interfaces";
 
-interface SubCategoria {
-  id: number;
-  name: string;
-  activo: boolean;
-}
+
 export const ContenidoModal = () => {
 
 
@@ -32,7 +29,6 @@ export const ContenidoModal = () => {
     tipo,
     values, 
     setValues,
-    setValuesEnEdicion
   } = useCategoriasStore((state) => ({
     selectedCategoria: state.selectedCategoria,
     tipo: state.tipo,
@@ -42,13 +38,21 @@ export const ContenidoModal = () => {
   }));
 
   let elementos = [];
-  let subCategoriasSelected: SubCategoria[] = [];
   if (tipo == 'categoria') {
     elementos = selectedCategoria;
 
     useEffect(() => {
       if (selectedCategoria && selectedCategoria.subCategorias) {
-        const subCategoriaIds = selectedCategoria.subCategorias.map((subCategoria: SubCategoria) => subCategoria.id.toString());
+        // const subCategoriaIds = selectedCategoria.subCategorias
+        // .filter((subCategoria: SubCategoria) => subCategoria.activo) // Filtrar subcategorías activas
+        // .map((subCategoria: SubCategoria) => subCategoria.id.toString());
+      
+        const subCategoriaIds = selectedCategoria.subCategorias
+        .filter((subCategoria: SubCategoria) => 
+          subCategorias.some(sc => sc.id === subCategoria.id && sc.activo) // Filtrar subcategorías activas
+        )
+        .map((subCategoria: SubCategoria) => subCategoria.id.toString());
+      
         setValues(subCategoriaIds);
       }
     }, [selectedCategoria, setValues]);
@@ -90,7 +94,8 @@ export const ContenidoModal = () => {
   };
 
 
-  
+  const activeSubCategorias = subCategorias.filter((subCategoria: SubCategoria) => subCategoria.activo);
+
 
   return (
     <div className="rounded-lg w-full md:w-full lg:w-full border border-gray-300 shadow-sm p-4 flex overflow-hidden flex-col justify-center py-12">
@@ -120,7 +125,7 @@ export const ContenidoModal = () => {
                 trigger: "min-h-12 py-2",
               }}
               isMultiline={true}
-              items={subCategorias}
+              items={activeSubCategorias}
               label="Subcategorias:"
              // labelPlacement="outside"
               placeholder="Selecciona las subcategorias"

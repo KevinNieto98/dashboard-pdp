@@ -39,7 +39,7 @@ const data = [
   {
     id: 8,
     name: "Celulares",
-    activo: false
+    activo: true
   },
   {
     id: 9,
@@ -49,7 +49,7 @@ const data = [
   {
     id: 10,
     name: "Accesorios",
-    activo: false
+    activo: true
   },
 ];
 

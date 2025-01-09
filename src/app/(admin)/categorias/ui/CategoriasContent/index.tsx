@@ -6,19 +6,24 @@ import { Button } from "@nextui-org/react";
 import { useCategoriasStore, useSubCategoriasStore } from "../../store";
 import { ContenidoModal } from "../ModalContent";
 import { useUIStore } from "@/store";
+import { SubCategoria } from "../../interfaces";
 
 export const CategoriasContent = () => {
+
+    //! SubCategorias
         const { 
              siEsEdicion, 
+             subCategorias
         } = useSubCategoriasStore((state) => ({
-
             siEsEdicion: state.siEsEdicion,
-            noEsEdicion: state.noEsEdicion,
+            subCategorias: state.subCategorias,
+
           }));
           
-          const { openModal } = useUIStore((state) => ({
+    const { openModal } = useUIStore((state) => ({
             openModal: state.openModal,
           }));
+    //! Categorias
     const {
         categorias,
         selectCategoria,
@@ -28,6 +33,8 @@ export const CategoriasContent = () => {
         selectCategoria: state.selectCategoria,
         selectTipo: state.selectTipo,
     }));
+
+
     
     const updateCategoria = (key: number) => {
         if (key >= 0 && key < categorias.length) {
@@ -38,10 +45,18 @@ export const CategoriasContent = () => {
         selectTipo('categoria');
         openModal();
     };
+
+    const categoriasConSubCategoriasActivas = categorias.map(categoria => ({
+        ...categoria,
+        subCategorias: categoria.subCategorias.filter((subCategoria: SubCategoria) =>
+          subCategorias.some(sc => sc.id === subCategoria.id && sc.activo)
+        )
+      }));
+
     return (
         <div className="p-4">
             <TablaDinamica
-                data={categorias}
+                data={categoriasConSubCategoriasActivas}
                 tieneFuncion={true}
                 needOpenModal={true}
                 funcionBoton = {updateCategoria}
