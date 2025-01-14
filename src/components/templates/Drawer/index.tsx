@@ -95,6 +95,18 @@ export const DrawerComponent = () => {
               
               <span className="ml-3 text-xl">Marcas</span>
             </Link>
+            <Link
+              href="/lugares"
+              className="flex items-center mt-2 p-2 hover:bg-gray-100 rounded transition-all"
+              onClick={closeSideMenu}
+            >
+              <Icon
+                name="FaLocationArrow"
+                className="text-2xl"
+              />
+              
+              <span className="ml-3 text-xl">Lugares</span>
+            </Link>
 
           </DrawerBody>
 

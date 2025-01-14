@@ -71,6 +71,9 @@ export const ContenidoModal = () => {
       setValues(new Set(subCategoriaIds)); // Actualizar el estado con un Set de IDs
     }
   }, [selectedCategoria, subCategorias, setValues]);
+  }else {
+    elementos = selectedSubCategoria;
+  
   }
 
   const { id, name, activo } = elementos;
