@@ -107,6 +107,18 @@ export const DrawerComponent = () => {
               
               <span className="ml-3 text-xl">Lugares</span>
             </Link>
+            <Link
+              href="/impuestos-descuentos"
+              className="flex items-center mt-2 p-2 hover:bg-gray-100 rounded transition-all"
+              onClick={closeSideMenu}
+            >
+              <Icon
+                name="FaPercent"
+                className="text-2xl"
+              />
+              
+              <span className="ml-3 text-md">Impuestos y escuentos</span>
+            </Link>
 
           </DrawerBody>
 
