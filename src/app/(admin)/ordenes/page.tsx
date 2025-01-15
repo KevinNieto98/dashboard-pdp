@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
 
-export default function IngresosPage() {
+export default function OrdenesPage() {
     return (
         <div className="p-4">
             <Text

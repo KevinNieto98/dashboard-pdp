@@ -117,7 +117,7 @@ export const DrawerComponent = () => {
                 className="text-2xl"
               />
               
-              <span className="ml-3 text-md">Impuestos y escuentos</span>
+              <span className="ml-3 text-md">Impuestos y Descuentos</span>
             </Link>
 
           </DrawerBody>

@@ -1,7 +1,7 @@
 'use client'
 
 import { Header } from "@/components";
-import { Input, Select, SelectItem, Switch } from "@nextui-org/react";
+import { Input,  Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useAjustesStore } from "../../store";
 
@@ -11,8 +11,9 @@ interface Ajuste {
   activo: boolean;
   monto: number;
   tipoAjuste: string;
-
 }
+
+
 export const ContenidoModal = () => {
 
 
@@ -36,18 +37,23 @@ export const ContenidoModal = () => {
   const [localName, setLocalName] = useState('');
   const [localMonto, setLocalMonto] = useState('');
   const [isSelected, setIsSelected] = useState(false);
+  const [tipoDeAjusteSeleccionado, setTipoDeAjusteSeleccionado] = useState<string>('');
+
 
   useEffect(() => {
     if (esEdicion) {
       setLocalName(name);
       setIsSelected(activo);
+      setLocalMonto(monto);
+      setTipoDeAjusteSeleccionado('1');
     }
-  }, [esEdicion, name, activo]);
-
+  }, [esEdicion, name, activo, tipoAjuste, monto]);
+  console.log('tipoDeAjusteSeleccionado', tipoDeAjusteSeleccionado);  
+  
   useEffect(() => {
     if (!esEdicion) {
       setLocalName('');
-      setIsSelected(false);
+      setIsSelected(tipoAjuste);
     }
   }, []);
 
@@ -64,6 +70,15 @@ export const ContenidoModal = () => {
   const handleSwitchChange = (value: boolean) => {
     setIsSelected(value);
     updateSelectedAjuste({ ...selectedAjuste, activo: value });
+  };
+
+
+
+  const handleTipoAjusteChange = async (values: any) => {
+      const valor: any = Array.from(values)[0];
+      console.log('valor', valor);
+      
+      setTipoDeAjusteSeleccionado(valor);
   };
 
 
@@ -85,18 +100,18 @@ export const ContenidoModal = () => {
           onChange={handleNameChange}
         />
         <div className="flex items-center space-x-4">
-          <Select
-            color="primary"
-            className="max-w-xs"
-            //defaultSelectedKeys={["descuento"]}
-            label="Accion en Factura"
-            placeholder="Seleccione el tipo de ajuste"
-            value={localMonto}
-            //onValueChange={handleMontoChange}
-          >
-            <SelectItem key={'impuesto'}>Impuesto</SelectItem>
-            <SelectItem key={'descuento'}>Descuento</SelectItem>
-          </Select>
+        {/* <Selector
+            property={{
+              label: 'Accion en Factura',
+              className: 'w-full max-w-full', // Sobrescribe max-w-xs
+              data: tiposDeAjuste,
+              defaultSelectedKeys: [tipoDeAjusteSeleccionado],
+              onChange: handleTipoAjusteChange,
+            }}
+          /> */}
+          
+          
+          <p className="text-small text-default-500">Selected: {tipoDeAjusteSeleccionado}</p>
 
           <Input
             label="Monto:"

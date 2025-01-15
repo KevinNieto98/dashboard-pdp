@@ -1,6 +1,13 @@
 import { Text } from "@chakra-ui/react";
+import { Metadata } from "next";
 
-export default function DiezmosPage() {
+export const metadata: Metadata = {
+    title: 'Productos',
+    description: 'Listado de Productos de la tienda',
+   };
+
+   
+export default function ProductosPage() {
     return (
         <div className="p-4">
             <Text

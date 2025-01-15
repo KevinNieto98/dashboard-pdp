@@ -8,7 +8,6 @@ import { ContenidoModal } from "../ModalContent";
 import { FooterModal } from "../FooterModal";
 import { useAjustesStore } from "../../store";
 
-
 export const AjustesContent = () => {
 
         const { 

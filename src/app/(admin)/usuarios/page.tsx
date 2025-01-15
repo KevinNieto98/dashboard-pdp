@@ -1,6 +1,13 @@
 import { Text } from "@chakra-ui/react";
+import { Metadata } from "next";
 
-export default function ofrendasPage() {
+
+export const metadata: Metadata = {
+    title: 'Usuarios',
+    description: 'Listado de Usuarios de la tienda',
+   };
+   
+export default function UsuariosPage() {
     return (
         <div className="p-4">
             <Text

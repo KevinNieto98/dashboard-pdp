@@ -9,11 +9,11 @@ const data = [
     activo: true
   },
   {
-    id: 1,
+    id: 2,
     name: "Descuento Black Friday(50%)",
     tipoAjuste: "descuento",
     monto: 0.50,
-    activo: true
+    activo: false
   },
 
 
