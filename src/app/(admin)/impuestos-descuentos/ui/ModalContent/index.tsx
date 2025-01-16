@@ -24,13 +24,11 @@ export const ContenidoModal = () => {
   const {
     selectedAjuste,
     updateSelectedAjuste,
-    esEdicion,
-    ajustes
+    esEdicion
   } = useAjustesStore((state) => ({
     selectedAjuste: state.selectedAjuste,
     updateSelectedAjuste: state.updateSelectedAjuste,
-    esEdicion: state.esEdicion,
-    ajustes: state.ajustes,
+    esEdicion: state.esEdicion
 
   }));
 
@@ -83,7 +81,6 @@ export const ContenidoModal = () => {
 
   const handleTipoAjusteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-    //console.log('valor', value);
     setTipoDeAjusteSeleccionado(value);
     updateSelectedAjuste({ ...selectedAjuste, tipoAjuste: value });
   };
@@ -125,9 +122,6 @@ export const ContenidoModal = () => {
                 <SelectItem key={tipoDeAjuste.key}>{tipoDeAjuste.label}</SelectItem>
               ))}
             </Select>
-          
-          <p className="text-small text-default-500">Selected: {tipoDeAjusteSeleccionado}</p>
-
           <Input
             label="Monto:"
             placeholder="Ingrese el monto del Ajuste"
