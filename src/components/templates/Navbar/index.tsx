@@ -24,7 +24,7 @@ export const NavbarComponent = () => {
         <Link
         href="/"
         >
-            <p className="font-bold text-inherit ml-2">DASBOARD</p>
+            <p className="font-bold text-inherit ml-2">DASHBOARD</p>
         </Link>
           
       </NavbarBrand>

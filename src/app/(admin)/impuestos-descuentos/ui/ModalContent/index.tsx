@@ -10,7 +10,7 @@ interface Ajuste {
   name: string;
   activo: boolean;
   monto: number;
-  tipoAjuste: string;
+  tipo_Ajuste: string;
 }
 
 export const tiposDeAjuste = [
@@ -33,7 +33,7 @@ export const ContenidoModal = () => {
   }));
 
 
-  const { id, name, activo, monto, tipoAjuste} = selectedAjuste;
+  const { id, name, activo, monto, tipo_Ajuste} = selectedAjuste;
   const [loading, setLoading] = useState(true);
   const [localName, setLocalName] = useState('');
   const [localMonto, setLocalMonto] = useState('');
@@ -46,10 +46,10 @@ export const ContenidoModal = () => {
       setLocalName(name);
       setIsSelected(activo);
       setLocalMonto(monto);
-      setTipoDeAjusteSeleccionado(tipoAjuste);
+      setTipoDeAjusteSeleccionado(tipo_Ajuste);
       setLoading(false);
     }
-  }, [esEdicion, name, activo, tipoAjuste, monto]);
+  }, [esEdicion, name, activo, tipo_Ajuste, monto]);
   console.log('tipoDeAjusteSeleccionado', tipoDeAjusteSeleccionado);  
   
 
@@ -57,7 +57,7 @@ export const ContenidoModal = () => {
   useEffect(() => {
     if (!esEdicion) {
       setLocalName('');
-      setIsSelected(tipoAjuste);
+      setIsSelected(tipo_Ajuste);
       setLoading(false);
     }
   }, []);
@@ -82,7 +82,7 @@ export const ContenidoModal = () => {
   const handleTipoAjusteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setTipoDeAjusteSeleccionado(value);
-    updateSelectedAjuste({ ...selectedAjuste, tipoAjuste: value });
+    updateSelectedAjuste({ ...selectedAjuste, tipo_Ajuste: value });
   };
 
 
@@ -110,7 +110,6 @@ export const ContenidoModal = () => {
           />
         <div className="flex items-center space-x-4">
             <Select
-              className="max-w-xs"
               color={"primary"}
               defaultSelectedKeys={[tipoDeAjusteSeleccionado]}
               value={tipoDeAjusteSeleccionado}

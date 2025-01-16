@@ -4,14 +4,14 @@ const data = [
   {
     id: 1,
     name: "Impuesto Sobre Venta(15%)",
-    tipoAjuste: "impuesto",
+    tipo_Ajuste: "impuesto",
     monto: 0.15,
     activo: true
   },
   {
     id: 2,
     name: "Descuento Black Friday(50%)",
-    tipoAjuste: "descuento",
+    tipo_Ajuste: "descuento",
     monto: 0.50,
     activo: false
   },
@@ -25,7 +25,7 @@ interface State {
   esEdicion: boolean;
   selectAjuste: (id: number | string) => void;
   deleteAjuste: (id: number | string) => void;
-  addAjuste: (Ajustes: any) => void;
+  addAjuste: (ajuste: any) => void;
   updateAjuste: (id: number | string) => void;
   getAjustes: (ajustes: any[]) => void;
   updateSelectedAjuste: (updatedAjustes: any) => void;
@@ -39,7 +39,7 @@ export const useAjustesStore = create<State>((set) => ({
   {
     id: null,
     name: "",
-    tipoAjuste: "",
+    tipo_Ajuste: "",
     monto: 0,
     activo: false
   },
@@ -51,8 +51,8 @@ export const useAjustesStore = create<State>((set) => ({
     ajustes: state.ajustes.filter((sub) => sub.id !== id),
     selectedAjustes: state.selectedAjuste === id ? '' : state.selectedAjuste,
   })),
-  addAjuste: (Ajustes) => set((state) => ({
-    ajustes: [...state.ajustes, Ajustes],
+  addAjuste: (ajuste) => set((state) => ({
+    ajustes: [...state.ajustes, ajuste],
   })),
   updateAjuste: (id) => set((state) => ({
     ajustes: state.ajustes.map((sub) =>

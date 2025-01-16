@@ -4,7 +4,7 @@ import { Confirm, Icon } from "@/components";
 import { useUIStore } from "@/store";
 import { Button } from "@nextui-org/react";
 import { useEffect } from "react";
-import { useAjustesStore } from "../../store";
+import { useCuponesStore } from "../../store";
 
 export const FooterModal =  () => {
     const { openModalConfirmacion, mostrarAlerta } = useUIStore((state) => ({
@@ -13,40 +13,40 @@ export const FooterModal =  () => {
       }));
       
       const { 
-        selectedAjuste,
-        updateAjuste,
-        addAjuste,
+        selectedCupon,
+        updateCupon,
+        addCupon,
         esEdicion,  
-        ajustes 
-        } = useAjustesStore((state) => ({
-        selectedAjuste: state.selectedAjuste,
-        updateAjuste: state.updateAjuste,
-        addAjuste: state.addAjuste,
+        cupones 
+        } = useCuponesStore((state) => ({
+        selectedCupon: state.selectedCupon,
+        updateCupon: state.updateCupon,
+        addCupon: state.addCupon,
         esEdicion: state.esEdicion,
-        ajustes: state.ajustes,
+        cupones: state.cupones,
       }));
 
   
   
 
     useEffect(() => {
-        if (selectedAjuste) {
-          updateAjuste(selectedAjuste.id);
+        if (selectedCupon) {
+          updateCupon(selectedCupon.id);
         }
-      }, [selectedAjuste, updateAjuste]);
+      }, [selectedCupon, updateCupon]);
     
 
-        const submitAjuste = () => { 
+        const submitCupon = () => { 
                 if (esEdicion) {
-                    updateAjuste(selectedAjuste.id);
+                    updateCupon(selectedCupon.id);
                 }else{
-                    const maxId = ajustes.reduce((max, item) => (item.id > max ? item.id : max), ajustes[0].id);
-                    addAjuste(
+                    const maxId = cupones.reduce((max, item) => (item.id > max ? item.id : max), cupones[0].id);
+                    addCupon(
                         {id:maxId +1,
-                        name: selectedAjuste.name, 
-                        activo: selectedAjuste.activo,
-                        monto: selectedAjuste.monto, 
-                        tipo_Ajuste: selectedAjuste.tipo_Ajuste
+                        name: selectedCupon.name, 
+                        activo: selectedCupon.activo,
+                        monto: selectedCupon.monto, 
+                        fecha_caducidad: selectedCupon.fecha_caducidad
                         });
                 }
             
@@ -72,7 +72,7 @@ export const FooterModal =  () => {
             </Button>
             </div>
             <Confirm 
-                funcionConfrm={submitAjuste} 
+                funcionConfrm={submitCupon} 
                 titletext="Acción Necesaria" 
                 mensaje="¿Estas seguro que deseas guardar cambios?"
                 confirmText="Sí" 
