@@ -1,7 +1,7 @@
 'use client'
 
 import { Header } from "@/components";
-import { Input,  Switch } from "@nextui-org/react";
+import { Input,  Select,  SelectItem,  Spinner,  Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useAjustesStore } from "../../store";
 
@@ -13,6 +13,10 @@ interface Ajuste {
   tipoAjuste: string;
 }
 
+export const tiposDeAjuste = [
+  {key: "descuento", label: "Descuento"},
+  {key: "impuesto", label: "Impuesto"},
+];
 
 export const ContenidoModal = () => {
 
@@ -28,12 +32,11 @@ export const ContenidoModal = () => {
     esEdicion: state.esEdicion,
     ajustes: state.ajustes,
 
-
   }));
 
 
   const { id, name, activo, monto, tipoAjuste} = selectedAjuste;
-
+  const [loading, setLoading] = useState(true);
   const [localName, setLocalName] = useState('');
   const [localMonto, setLocalMonto] = useState('');
   const [isSelected, setIsSelected] = useState(false);
@@ -45,15 +48,19 @@ export const ContenidoModal = () => {
       setLocalName(name);
       setIsSelected(activo);
       setLocalMonto(monto);
-      setTipoDeAjusteSeleccionado('1');
+      setTipoDeAjusteSeleccionado(tipoAjuste);
+      setLoading(false);
     }
   }, [esEdicion, name, activo, tipoAjuste, monto]);
   console.log('tipoDeAjusteSeleccionado', tipoDeAjusteSeleccionado);  
   
+
+
   useEffect(() => {
     if (!esEdicion) {
       setLocalName('');
       setIsSelected(tipoAjuste);
+      setLoading(false);
     }
   }, []);
 
@@ -74,15 +81,20 @@ export const ContenidoModal = () => {
 
 
 
-  const handleTipoAjusteChange = async (values: any) => {
-      const valor: any = Array.from(values)[0];
-      console.log('valor', valor);
-      
-      setTipoDeAjusteSeleccionado(valor);
+  const handleTipoAjusteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    //console.log('valor', value);
+    setTipoDeAjusteSeleccionado(value);
+    updateSelectedAjuste({ ...selectedAjuste, tipoAjuste: value });
   };
 
 
+
   return (
+    <>
+    {loading ?
+        <Spinner  />
+      :
     <div className="rounded-lg w-full md:w-full lg:w-full border border-gray-300 shadow-sm p-4 flex overflow-hidden flex-col justify-center py-12">
       <Header className="pt-2" iconName={'FaFile'} titulo={'Detalle de Categoria'} />
       <div className="flex flex-col space-y-4 pt-5 px-2">
@@ -98,18 +110,21 @@ export const ContenidoModal = () => {
           type="text"
           value={localName}
           onChange={handleNameChange}
-        />
+          />
         <div className="flex items-center space-x-4">
-        {/* <Selector
-            property={{
-              label: 'Accion en Factura',
-              className: 'w-full max-w-full', // Sobrescribe max-w-xs
-              data: tiposDeAjuste,
-              defaultSelectedKeys: [tipoDeAjusteSeleccionado],
-              onChange: handleTipoAjusteChange,
-            }}
-          /> */}
-          
+            <Select
+              className="max-w-xs"
+              color={"primary"}
+              defaultSelectedKeys={[tipoDeAjusteSeleccionado]}
+              value={tipoDeAjusteSeleccionado}
+              onChange={handleTipoAjusteChange}
+              label="Tipo de Ajuste:"
+              placeholder="Ingresa el tipo de Ajuste"
+            >
+              {tiposDeAjuste.map((tipoDeAjuste) => (
+                <SelectItem key={tipoDeAjuste.key}>{tipoDeAjuste.label}</SelectItem>
+              ))}
+            </Select>
           
           <p className="text-small text-default-500">Selected: {tipoDeAjusteSeleccionado}</p>
 
@@ -119,7 +134,7 @@ export const ContenidoModal = () => {
             type="number"
             value={localMonto}
             onChange={handleMontoChange}
-          />
+            />
         </div>
 
         <Switch isSelected={isSelected} onValueChange={handleSwitchChange}>
@@ -127,5 +142,7 @@ export const ContenidoModal = () => {
         </Switch>
       </div>
     </div>
+    }
+    </>
   );
 };
