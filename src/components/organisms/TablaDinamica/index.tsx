@@ -18,7 +18,10 @@ import { capitalize, ExportCSV } from "@/utils";
 export interface PropsColumns {
     columns: string[];
 }
-
+const formatDate = (dateObj: { year: number; month: number; day: number }) => {
+    const { year, month, day } = dateObj;
+    return `${day}/${month}/${year}`;
+};
 interface UiTableProps {
     data: any[];
     needTopContent?: boolean;
@@ -135,6 +138,16 @@ export const TablaDinamica: React.FC<UiTableProps> = (
                     {/* {cellValue ? 'Activo' : 'Inactivo'} */}
                 </Switch>
             );
+        } else if (Array.isArray(cellValue)) {
+            return (
+                <ul>
+                    {cellValue.map((item, index) => (
+                        <li key={index}>{item}</li>
+                    ))}
+                </ul>
+            );
+        } else if (typeof cellValue === 'object' && cellValue !== null) {
+            return formatDate(cellValue);
         }
         switch (columnKey) {
             case "accion":

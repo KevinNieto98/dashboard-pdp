@@ -1,1 +1,1 @@
-export * from './marcas.interface';
+export * from './cupones.interface';

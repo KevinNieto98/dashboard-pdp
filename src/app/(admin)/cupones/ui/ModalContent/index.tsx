@@ -4,7 +4,7 @@ import { Header } from "@/components";
 import { Calendar, DatePicker, Input, Select, SelectItem, Spinner, Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useCuponesStore } from "../../store";
-import { getLocalTimeZone, now, today } from "@internationalized/date";
+import { getLocalTimeZone, now, parseDate, today } from "@internationalized/date";
 
 
 export const tiposDeCupon = [
@@ -13,8 +13,10 @@ export const tiposDeCupon = [
 ];
 
 export const ContenidoModal = () => {
-  let defaultDate = today(getLocalTimeZone());
-  let [focusedDate, setFocusedDate] = useState(defaultDate);
+  const [value, setValue] = useState(today(getLocalTimeZone()));
+  console.log('value', value);
+  
+  
 
 
 
@@ -30,7 +32,7 @@ export const ContenidoModal = () => {
   }));
 
 
-  const { id, name, activo, monto, tipo_Cupon } = selectedCupon;
+  const { id, name, activo, monto, tipo_Cupon, codigo, fecha_caducidad } = selectedCupon;
   const [loading, setLoading] = useState(true);
   const [localName, setLocalName] = useState('');
   const [localMonto, setLocalMonto] = useState('');
@@ -47,9 +49,6 @@ export const ContenidoModal = () => {
       setLoading(false);
     }
   }, [esEdicion, name, activo, tipo_Cupon, monto]);
-  console.log('tipoDeCuponSeleccionado', tipoDeCuponSeleccionado);
-
-
 
   useEffect(() => {
     if (!esEdicion) {
@@ -140,9 +139,7 @@ export const ContenidoModal = () => {
             <div className="flex items-center space-x-4">
               <div className="w-full max-w-xl flex flex-row gap-4">
                 <DatePicker
-                  hideTimeZone
-                  showMonthAndYearPickers
-                  defaultValue={now(getLocalTimeZone())}
+                  value={fecha_caducidad}
                   label="Event Date"
                   variant="bordered"
                 />
