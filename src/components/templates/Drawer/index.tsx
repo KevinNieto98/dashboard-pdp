@@ -119,6 +119,18 @@ export const DrawerComponent = () => {
               
               <span className="ml-3 text-md">Impuestos y Descuentos</span>
             </Link>
+            <Link
+              href="/metodos-de-pago"
+              className="flex items-center mt-2 p-2 hover:bg-gray-100 rounded transition-all"
+              onClick={closeSideMenu}
+            >
+              <Icon
+                name="FaCreditCard"
+                className="text-2xl"
+              />
+              
+              <span className="ml-3 text-md">Metodos de Pago</span>
+            </Link>
 
           </DrawerBody>
 
