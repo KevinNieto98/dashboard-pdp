@@ -1,17 +1,13 @@
 import { create } from 'zustand';
 import { Cupon } from '../../interfaces';
 
-const convertToDate = (dateObj: { year: number; month: number; day: number }): Date => {
-  const { year, month, day } = dateObj;
-  return new Date(year, month - 1, day); // Restar 1 al mes porque los meses en JavaScript son indexados desde 0
-};
 const data: Cupon[] = [
   {
     id: 1,
     name: "50% OFF Enero",
     codigo: "descuento50",
     tipo_cupon: "porcentaje",
-    fecha_caducidad: "2025-01-20T00:00:00.000Z",
+    fecha_caducidad: "2025-01-25T00:00:00.000Z",
     monto: 0.15,
     activo: true
   },

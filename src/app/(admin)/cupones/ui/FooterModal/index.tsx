@@ -46,7 +46,9 @@ export const FooterModal =  () => {
                         name: selectedCupon.name, 
                         activo: selectedCupon.activo,
                         monto: selectedCupon.monto, 
-                        fecha_caducidad: selectedCupon.fecha_caducidad
+                        fecha_caducidad: selectedCupon.fecha_caducidad,
+                        codigo: selectedCupon.codigo,
+                        tipo_cupon: selectedCupon.tipo_cupon
                         });
                 }
             
