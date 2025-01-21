@@ -12,8 +12,8 @@ export const NavbarComponent = () => {
 
   return (
 
-    <nav className="bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-600">
-      <div className="max-w-screen-xl mx-auto flex items-center justify-between p-4">
+    <nav className="bg-gray-900  w-full z-20 top-0 start-0 border-b border-gray-600">
+      <div className=" flex items-center justify-between p-3">
         <button
           type="button"
           className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
