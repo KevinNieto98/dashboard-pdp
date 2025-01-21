@@ -9,7 +9,7 @@ export default function AdminLayot({
   <>
     <NavbarComponent/>
     <DrawerComponent/>
-    <div className="my-6  bg-white rounded p-5 px-16">
+    <div className="bg-white rounded ">
       {children}
 
     </div>

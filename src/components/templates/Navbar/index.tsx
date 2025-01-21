@@ -1,37 +1,53 @@
 'use client'
 import React from "react";
-import { Navbar, NavbarBrand, NavbarContent, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Button } from '@nextui-org/react';
 import { useUIStore } from "@/store";
-import { IconButton } from "@chakra-ui/react";
-import { IoMenu } from "react-icons/io5";
-import Link from 'next/link';
+
+import Image from "next/image";
+import { Icon } from "@/components";
 
 
 export const NavbarComponent = () => {
- const openSideMenu = useUIStore((state) => state.openSideMenu);
+  const openSideMenu = useUIStore((state) => state.openSideMenu);
 
 
   return (
-    <Navbar position="sticky" className="bg-blue-800 text-white ">
-      <NavbarBrand>
-        <IconButton  
-          aria-label='Menu'
-          variant='ghost' 
-          colorScheme='white'
-          icon={<IoMenu />} 
-          onClick={openSideMenu}
-        />
-        <Link
-        href="/"
-        >
-            <p className="font-bold text-inherit ml-2">DASHBOARD</p>
-        </Link>
-          
-      </NavbarBrand>
 
-      <NavbarContent as="div" justify="end" className="custom-max-width">
-       
-      </NavbarContent>
-    </Navbar>
+    <nav className="bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-600">
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between p-4">
+        <button
+          type="button"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
+          aria-controls="navbar-sticky"
+          aria-expanded="false"
+          onClick={openSideMenu}
+        >
+          <span className="sr-only">Open main menu</span>
+          <Icon name="IoMenu" size={24} />
+        </button>
+        <a href="https://flowbite.com/" className="flex items-center space-x-3">
+          <Image
+            width={32}
+            height={32}
+            src="https://flowbite.com/docs/images/logo.svg"
+            className="h-8"
+            alt="Flowbite Logo"
+          />
+          <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Flowbite</span>
+        </a>
+        <div className="flex space-x-3">
+          <button
+            type="button"
+            className="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 items-center text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 flex"
+          >
+            <Icon 
+              name="FaPowerOff" 
+              size={16}
+              className="text-white mx-1" 
+            />
+            <p className="">Cerrar Sesion</p>
+          </button>
+        </div>
+      </div>
+    </nav>
   );
 }
