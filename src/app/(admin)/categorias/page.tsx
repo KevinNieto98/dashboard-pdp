@@ -2,7 +2,7 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { CategoriasContent, SubCategoriasContent } from "./ui";
 import { Metadata } from "next";
-import { AlertRegion, Title } from "@/components";
+import { AlertRegion, Content, Title } from "@/components";
 
 export const metadata: Metadata = {
     title: 'Categorias',
@@ -17,11 +17,10 @@ export default function categoriasPage() {
                 iconName={"FaClipboardList"}
                 titulo="Categorias"
             />
-            <div className="px-12 my-28">
-
+        <Content>
                 <Text
                     className=" pb-4"
-                >
+                    >
                     Pagina para administrar las categorias de los productos.
                 </Text>
                 <Tabs>
@@ -39,8 +38,9 @@ export default function categoriasPage() {
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
-            </div>
+        </Content>
         </div>
+
 
     );
 }

@@ -1,4 +1,4 @@
-import { Title } from "@/components";
+import { Content, Title } from "@/components";
 import { Text } from "@chakra-ui/react";
 
 export default function OrdenesPage() {
@@ -8,14 +8,16 @@ export default function OrdenesPage() {
                 iconName={"FaChartArea"}
                 titulo="Ordenes"
             />
-            <div className="px-12 my-6">
+            <Content>
+                
 
                 <Text
                     className="pt-4"
-                >
+                    >
                     Pagina de Control de Ordenes
                 </Text>
-            </div>
+            
+            </Content>
         </div>
     );
 }

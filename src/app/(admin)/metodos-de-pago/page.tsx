@@ -1,7 +1,7 @@
 import { Text } from "@chakra-ui/react";
 import { Metadata } from "next";
 import { MetodosContent } from "./ui";
-import { AlertRegion, Title } from "@/components";
+import { AlertRegion, Content, Title } from "@/components";
 
 export const metadata: Metadata = {
     title: 'Metodos de Pago',
@@ -16,15 +16,16 @@ export default function MetodosPagoPage() {
                 iconName={"FaCreditCard"}
                 titulo="Metodos de Pago"
             />
-            <div className="px-12 my-6">
+            <Content>
 
                 <Text
                     className=""
-                >
+                    >
                     Pagina de Control de Metodos de Pago
                 </Text>
                 <MetodosContent />
-            </div>
+            </Content>
+          
         </div>
     );
 }

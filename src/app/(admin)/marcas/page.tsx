@@ -1,7 +1,7 @@
 import { Text } from "@chakra-ui/react";
 import { Metadata } from "next";
 import { MarcasContent } from "./ui";
-import { AlertRegion, Title } from "@/components";
+import { AlertRegion, Content, Title } from "@/components";
 
 export const metadata: Metadata = {
     title: 'Marcas',
@@ -16,14 +16,16 @@ export default function MarcasPage() {
                 iconName={"FaTag"}
                 titulo="Marcas"
             />
-            <div className="px-12 my-6">
+            <Content>
+
                 <Text
                     className=""
-                >
+                    >
                     Pagina de Control de Marcas
                 </Text>
                 <MarcasContent />
-            </div>
+            
+            </Content>
         </div>
     );
 }

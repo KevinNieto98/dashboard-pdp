@@ -1,7 +1,7 @@
 
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { Metadata } from "next";
-import { AlertRegion, Title } from "@/components";
+import { AlertRegion, Content, Title } from "@/components";
 import { CiudadesContent, ColoniasContent } from "./ui";
 
 export const metadata: Metadata = {
@@ -16,8 +16,7 @@ export default function LugaresPage() {
             <Title
                 iconName={"FaLocationArrow"}
                 titulo="Lugares de Entrega" />
-            <div className="px-12 my-6">
-
+            <Content>
                 <Text
                     className="pb-4"
                 >
@@ -25,6 +24,7 @@ export default function LugaresPage() {
                 </Text>
                 <Tabs>
                     <TabList>
+
                         <Tab>Ciudades</Tab>
                         <Tab>Colonia</Tab>
                     </TabList>
@@ -38,8 +38,9 @@ export default function LugaresPage() {
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
-            </div>
+            </Content>
         </div>
+
 
     );
 }

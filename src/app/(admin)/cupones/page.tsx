@@ -1,30 +1,31 @@
 import { Text } from "@chakra-ui/react";
 import { Metadata } from "next";
-import { AlertRegion, Title } from "@/components";
+import { AlertRegion, Content, Title } from "@/components";
 import { CuponesContent } from "./ui";
 
 export const metadata: Metadata = {
     title: 'Cupones',
     description: 'Pagina de Mantenimiento de Cupones',
-   };
+};
 
 export default function CuponesPage() {
     return (
         <div className="">
-            <AlertRegion/> 
+            <AlertRegion />
             <Title
-                        iconName={"FaTicketAlt"}
-                        titulo="Cupones" 
+                iconName={"FaTicketAlt"}
+                titulo="Cupones"
             />
-            <div className="px-12 my-6">
+            <Content>
 
-            <Text
-                className="pt-4"
+                <Text
+                    className="pt-4"
                 >
-                Pagina de Mantenimiento de Cupones
-            </Text>
-            <CuponesContent/>
-            </div>
+                    Pagina de Mantenimiento de Cupones
+                </Text>
+                <CuponesContent />
+
+            </Content>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { Title } from "@/components";
+import { Content, Title } from "@/components";
 import { Text } from "@chakra-ui/react";
 import { Metadata } from "next";
 
@@ -15,14 +15,15 @@ export default function ProductosPage() {
                 iconName={"FaShoppingBag"}
                 titulo="Productos"
             />
-            <div className="px-12 my-6">
+            <Content>
 
                 <Text
                     className="pt-4"
                 >
                     Pagina de Control de Productos
                 </Text>
-            </div>
+
+            </Content>
         </div>
     );
 }

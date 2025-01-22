@@ -1,7 +1,7 @@
 import { Text } from "@chakra-ui/react";
 import { Metadata } from "next";
 
-import { AlertRegion, Title } from "@/components";
+import { AlertRegion, Content, Title } from "@/components";
 import { AjustesContent } from "./ui";
 
 export const metadata: Metadata = {
@@ -16,7 +16,8 @@ export default function ImpuestosDescuentosPage() {
             <Title
                 iconName={"FaPercent"}
                 titulo="Impuestos y Descuentos" />
-            <div className="px-12 my-6">
+            <Content>
+
 
                 <Text
                     className="pt-4"
@@ -24,7 +25,8 @@ export default function ImpuestosDescuentosPage() {
                     Pagina de Impuestos y Descuentos
                 </Text>
                 <AjustesContent />
-            </div>
+            </Content>
+
         </div>
     );
 }
