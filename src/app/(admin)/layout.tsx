@@ -1,4 +1,4 @@
-import { DrawerComponent, NavbarComponent } from "@/components";
+import { DrawerComponent, Footer, NavbarComponent } from "@/components";
 
 export default function AdminLayot({
  children
@@ -13,6 +13,7 @@ export default function AdminLayot({
       {children}
 
     </div>
+    <Footer/>
   </>
   );
 }
