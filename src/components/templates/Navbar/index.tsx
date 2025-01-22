@@ -12,7 +12,7 @@ export const NavbarComponent = () => {
 
   return (
 
-    <nav className="bg-gray-900  w-full z-20 top-0 start-0 border-b border-gray-600">
+    <nav className="bg-gray-900  w-full z-20 fixed  top-0 start-0 border-b border-gray-600">
       <div className=" flex items-center justify-between p-3">
         <button
           type="button"
@@ -27,12 +27,11 @@ export const NavbarComponent = () => {
         <a href="https://flowbite.com/" className="flex items-center space-x-3">
           <Image
             width={32}
-            height={32}
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-8"
+            height={52}
+            src={'img/tigo_white.svg'}
+              className="px-4 h-8 w-auto"
             alt="Flowbite Logo"
           />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">Flowbite</span>
         </a>
         <div className="flex space-x-3">
           <button

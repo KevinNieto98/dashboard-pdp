@@ -22,6 +22,12 @@ const formatDate = (dateObj: { year: number; month: number; day: number }) => {
     const { year, month, day } = dateObj;
     return `${day}/${month}/${year}`;
 };
+
+interface Column {
+    key: string;
+    label: string;
+}
+
 interface UiTableProps {
     data: any[];
     needTopContent?: boolean;
@@ -30,18 +36,21 @@ interface UiTableProps {
     esSeleccion?: boolean;
     tieneFuncion?: boolean;
     funcionBoton?: (key: number) => void;
-    aditionalButton?: ReactNode; // Nueva propiedad para el botón personalizado
+    aditionalButton?: ReactNode;
+    labels?: any[] // Nueva propiedad para el botón personalizado
 }
 
+
 export const TablaDinamica: React.FC<UiTableProps> = (
-    { data, 
-      needTopContent = true, 
-      needBottonContent = true, 
-      needOpenModal = false,
-      esSeleccion = false,
-      tieneFuncion = false,
-      funcionBoton,
-      aditionalButton
+    { data,
+        needTopContent = true,
+        needBottonContent = true,
+        needOpenModal = false,
+        esSeleccion = false,
+        tieneFuncion = false,
+        funcionBoton,
+        aditionalButton,
+        labels
     }
 ) => {
 
@@ -90,15 +99,15 @@ export const TablaDinamica: React.FC<UiTableProps> = (
 
     const filteredItems = useMemo(() => {
         let filteredRows = data ? [...data] : [];
-        
+
         if (hasSearchFilter) {
             filteredRows = filteredRows.filter((data) =>
-              data.name && filterValue
-                ? data.name.toLowerCase().includes(filterValue.toLowerCase())
-                : false
+                data.name && filterValue
+                    ? data.name.toLowerCase().includes(filterValue.toLowerCase())
+                    : false
             );
-          }
-          return filteredRows;
+        }
+        return filteredRows;
     }, [data, filterValue, hasSearchFilter]);
 
     const items = useMemo(() => {
@@ -126,10 +135,10 @@ export const TablaDinamica: React.FC<UiTableProps> = (
     const renderCell = useCallback((rows: Rows, columnKey: Key) => {
         const cellValue = rows[columnKey as keyof Rows];
         if (Array.isArray(cellValue)) {
-            return  cellValue.length;
+            return cellValue.length;
             // const activeCount = cellValue.filter((item: { activo: boolean }) => item.activo).length;
             // return activeCount; 
-            
+
             // Ignorar celdas que contienen arrays
         }
         if (typeof cellValue === 'boolean') {
@@ -190,7 +199,7 @@ export const TablaDinamica: React.FC<UiTableProps> = (
         if (!needTopContent) {
             return null;
         }
-    
+
         return (
             <div className="flex flex-col gap-4 mt-1">
                 <div className="flex justify-between gap-3 items-end">
@@ -210,7 +219,7 @@ export const TablaDinamica: React.FC<UiTableProps> = (
                         onValueChange={onSearchChange}
                     />
                     <div className="flex gap-3">
-                        <Button onClick={() => { ExportCSV(data, 'MatenimientoUsuarios') }}  color="primary"  endContent={<RiFileExcel2Fill />} className="p-2 text-white">Exportar CSV</Button>
+                        <Button onClick={() => { ExportCSV(data, 'MatenimientoUsuarios') }} color="primary" endContent={<RiFileExcel2Fill />} className="p-2 text-white">Exportar CSV</Button>
                         {aditionalButton}
                     </div>
                 </div>
@@ -289,9 +298,14 @@ export const TablaDinamica: React.FC<UiTableProps> = (
             {...(esSeleccion && { selectionMode: "multiple" })}
         >
             <TableHeader columns={columnas}>
-                {(column: any) => (
-                    <TableColumn key={column.key}>{column.label.toUpperCase()}</TableColumn>
-                )}
+                {(column: Column) => {
+                    const labelObj = labels?.find(label => label.key === column.key);
+                    return (
+                        <TableColumn key={column.key}>
+                            {labelObj ? labelObj.label.toUpperCase() : column.label.toUpperCase()}
+                        </TableColumn>
+                    );
+                }}
             </TableHeader>
             <TableBody
                 items={items ?? []}

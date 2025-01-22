@@ -8,6 +8,17 @@ import { ContenidoModal } from "../ModalContent";
 import { FooterModal } from "../FooterModal";
 import { useCuponesStore } from "../../store";
 
+const labels = [
+    { key: "accion", label: "ACCION" },
+    { key: "id", label: "ID" },
+    { key: "name", label: "Nombre" },
+    { key: "activo", label: "Activo" },
+    { key: "monto", label: "Monto " },
+    { key: "tipo_cupon", label: "Tipo de Cupon" },
+    { key: "codigo", label: "Codigo" },
+    { key: "fecha_caducidad", label: "Fecha de Caducidad" },
+]
+
 export const CuponesContent = () => {
 
         const { 
@@ -47,10 +58,13 @@ export const CuponesContent = () => {
             openModal();
         };
 
+
+
     return (
         <div className="p-4">
             <TablaDinamica
                 data={cupones} 
+                labels={labels}
                 tieneFuncion  = {true} 
                 needOpenModal = {true}
                 funcionBoton = {updateCupones}

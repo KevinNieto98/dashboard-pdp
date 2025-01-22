@@ -5,6 +5,7 @@ import { Icon } from "@/components/atoms";
 import { useUIStore } from "@/store";
 import {  Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay } from "@chakra-ui/react";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 
 
@@ -26,7 +27,15 @@ export const DrawerComponent = () => {
           <DrawerCloseButton />
           <DrawerHeader
             className="bg-blue-900 text-white"
-          >Menu</DrawerHeader>
+          >
+            <Image
+              width={32}
+              height={52}
+              src={'/img/tigo_white.svg'}
+              className="px-4 h-8 w-auto"
+              alt="Flowbite Logo"
+            />
+          </DrawerHeader>
 
           <DrawerBody 
             className="bg-gray-900"          

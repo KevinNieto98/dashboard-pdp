@@ -17,7 +17,7 @@ export default function categoriasPage() {
                 iconName={"FaClipboardList"}
                 titulo="Categorias"
             />
-            <div className="px-12 my-6">
+            <div className="px-12 my-28">
 
                 <Text
                     className=" pb-4"
