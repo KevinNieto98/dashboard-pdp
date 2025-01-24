@@ -1,4 +1,5 @@
 import { Content, Title } from "@/components";
+import { products } from "@/seed/seed";
 import { Text } from "@chakra-ui/react";
 import { Metadata } from "next";
 
@@ -9,6 +10,9 @@ export const metadata: Metadata = {
 
 
 export default function ProductosPage() {
+    const productos = products
+    console.log('productos', productos);
+    
     return (
         <div className="">
             <Title

@@ -3,12 +3,24 @@ import React from "react";
 import { useUIStore } from "@/store";
 
 import Image from "next/image";
-import { Icon } from "@/components";
+import { Confirm, Icon } from "@/components";
+import { useRouter } from "next/navigation";
+import { Button } from "@nextui-org/react";
 
 
 export const NavbarComponent = () => {
+  const { openModalConfirmacion } = useUIStore((state) => ({
+    openModalConfirmacion: state.openModalConfirmacion
+  }));
+  
   const openSideMenu = useUIStore((state) => state.openSideMenu);
 
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Aquí puedes agregar la lógica de autenticación si es necesario
+    router.push('/login');
+  };
 
   return (
 
@@ -34,7 +46,8 @@ export const NavbarComponent = () => {
           />
         </a>
         <div className="flex space-x-3">
-          <button
+          <Button
+            onPress={openModalConfirmacion}
             type="button"
             className="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 items-center text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800 flex"
           >
@@ -44,9 +57,16 @@ export const NavbarComponent = () => {
               className="text-white mx-1" 
             />
             <p className="">Cerrar Sesion</p>
-          </button>
+          </Button>
         </div>
       </div>
+      <Confirm 
+          funcionConfrm={handleLogout} 
+          titletext="Acción Necesaria" 
+          mensaje="¿Estas seguro que deseas Cerrar Sesion?"
+          confirmText="Sí" 
+          rejectText="Seguir Navegando"  
+      />
     </nav>
   );
 }
