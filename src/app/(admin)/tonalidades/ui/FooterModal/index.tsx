@@ -4,7 +4,7 @@ import { Confirm, Icon } from "@/components";
 import { useUIStore } from "@/store";
 import { Button } from "@nextui-org/react";
 import { useEffect } from "react";
-import { useMarcasStore } from "../../store";
+import { useTonalidadesStore } from "../../store";
 
 export const FooterModal =  () => {
     const { openModalConfirmacion, mostrarAlerta } = useUIStore((state) => ({
@@ -13,35 +13,35 @@ export const FooterModal =  () => {
       }));
       
       const { 
-        selectedMarca,
-        updateMarca,
-        addMarca,
+        selectedTonalidad,
+        updateTonalidad,
+        addTonalidad,
         esEdicion,  
-        marcas 
-        } = useMarcasStore((state) => ({
-        selectedMarca: state.selectedMarca,
-        updateMarca: state.updateMarca,
-        addMarca: state.addMarca,
+        tonalidades 
+        } = useTonalidadesStore((state) => ({
+        selectedTonalidad: state.selectedTonalidad,
+        updateTonalidad: state.updateTonalidad,
+        addTonalidad: state.addTonalidad,
         esEdicion: state.esEdicion,
-        marcas: state.marcas,
+        tonalidades: state.tonalidades,
       }));
 
   
   
 
     useEffect(() => {
-        if (selectedMarca) {
-          updateMarca(selectedMarca.id);
+        if (selectedTonalidad) {
+          updateTonalidad(selectedTonalidad.id);
         }
-      }, [selectedMarca, updateMarca]);
+      }, [selectedTonalidad, updateTonalidad]);
     
 
-        const submitMarca = () => { 
+        const submitTonalidad = () => { 
                 if (esEdicion) {
-                    updateMarca(selectedMarca.id);
+                    updateTonalidad(selectedTonalidad.id);
                 }else{
-                    const maxId = marcas.reduce((max, item) => (item.id > max ? item.id : max), marcas[0].id);
-                    addMarca({id:maxId +1,name: selectedMarca.name, activo: selectedMarca.activo});
+                    const maxId = tonalidades.reduce((max, item) => (item.id > max ? item.id : max), tonalidades[0].id);
+                    addTonalidad({id:maxId +1,name: selectedTonalidad.name, activo: selectedTonalidad.activo});
                 }
             
             mostrarAlerta("Guardado", "Cambios guardados correctamente", "success");
@@ -66,7 +66,7 @@ export const FooterModal =  () => {
             </Button>
             </div>
             <Confirm 
-                funcionConfrm={submitMarca} 
+                funcionConfrm={submitTonalidad} 
                 titletext="Acción Necesaria" 
                 mensaje="¿Estas seguro que deseas guardar cambios?"
                 confirmText="Sí" 

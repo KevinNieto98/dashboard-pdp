@@ -1,11 +1,11 @@
 'use client'
 
 import { Header } from "@/components";
-import {  Chip, Input, Select, SelectItem, Switch } from "@nextui-org/react";
+import {   Input,  Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useMarcasStore } from "../../store";// Adjust the import path as necessary
+import { useTonalidadesStore } from "../../store";// Adjust the import path as necessary
 
-interface Marca {
+interface Tonalidad {
     id: number;
     name: string;
     activo: boolean;
@@ -14,21 +14,21 @@ export const ContenidoModal = () => {
 
 
   const { 
-    selectedMarca, 
-    updateSelectedMarca, 
+    selectedTonalidad, 
+    updateSelectedTonalidad, 
     esEdicion ,
-    Marcas
-  } = useMarcasStore((state) => ({
-    selectedMarca: state.selectedMarca,
-    updateSelectedMarca: state.updateSelectedMarca,
+    tonalidades
+  } = useTonalidadesStore((state) => ({
+    selectedTonalidad: state.selectedTonalidad,
+    updateSelectedTonalidad: state.updateSelectedTonalidad,
     esEdicion: state.esEdicion,
-    Marcas: state.marcas,
+    tonalidades: state.tonalidades,
 
 
   }));
 
 
-  const { id, name, activo } = selectedMarca;
+  const { id, name, activo } = selectedTonalidad;
 
   const [localName, setLocalName] = useState('');
   const [isSelected, setIsSelected] = useState(false);
@@ -49,35 +49,35 @@ export const ContenidoModal = () => {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setLocalName(e.target.value);
-      updateSelectedMarca({ ...selectedMarca, name: e.target.value });
+      updateSelectedTonalidad({ ...selectedTonalidad, name: e.target.value });
 
 
   };
 
   const handleSwitchChange = (value: boolean) => {
       setIsSelected(value);
-      updateSelectedMarca({ ...selectedMarca, activo: value });
+      updateSelectedTonalidad({ ...selectedTonalidad, activo: value });
   };
 
   
 
 
-  const activeMarcas = Marcas.filter((Marca: Marca) => Marca.activo);
+  const activeTonalidades = tonalidades.filter((Tonalidad: Tonalidad) => Tonalidad.activo);
 
 
   return (
     <div className="rounded-lg w-full md:w-full lg:w-full border border-gray-300 shadow-sm p-4 flex overflow-hidden flex-col justify-center py-12">
-      <Header className="pt-2" iconName={'FaFile'} titulo={'Detalle de Categoria'} />
+      <Header className="pt-2" iconName={'FaFile'} titulo={'Detalle de Tonalidad'} />
       <div className="flex flex-col space-y-4 pt-5 px-2">
         {esEdicion && (
           <div>
-            <p>ID de la Categoria: {id}</p>
+            <p>ID de la Tonalidad: {id}</p>
           </div>
         )}
 
         <Input
           label="Nombre:"
-          placeholder="Ingrese el nombre de la Marca"
+          placeholder="Ingrese el nombre de la Tonalidad"
           type="text"
           value={localName}
           onChange={handleNameChange}

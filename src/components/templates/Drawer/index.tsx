@@ -97,7 +97,7 @@ export const DrawerComponent = () => {
               <span className="ml-3 text-xl text-sky-400">Categorias</span>
             </Link>
             <Link
-              href="/marcas"
+              href="/tonalidades"
               className="flex items-center mt-2 p-2 hover:bg-blue-900 rounded transition-all text-sky-400"
               onClick={closeSideMenu}
             >
@@ -106,7 +106,7 @@ export const DrawerComponent = () => {
                 className="text-2xl text-sky-400"
               />
               
-              <span className="ml-3 text-xl text-sky-400">Marcas</span>
+              <span className="ml-3 text-xl text-sky-400">Tonalidades</span>
             </Link>
             <Link
               href="/lugares"
