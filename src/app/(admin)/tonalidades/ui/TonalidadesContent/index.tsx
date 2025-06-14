@@ -8,7 +8,6 @@ import { ContenidoModal } from "../ModalContent";
 import { FooterModal } from "../FooterModal";
 import { useTonalidadesStore } from "../../store";
 
-
 interface TonalidadesContentProps {
     tonalidadesServer: any; // Replace 'any' with the actual type if known, e.g., Tonalidad[]
 }
@@ -29,26 +28,28 @@ export const TonalidadesContent = ({tonalidadesServer}: TonalidadesContentProps)
             siEsEdicion: state.siEsEdicion,
             noEsEdicion: state.noEsEdicion,
           }));
+          
+            const { openModal,
+              esVisibleAlerta
+             } = useUIStore((state) => ({
+              openModal: state.openModal,
+              esVisibleAlerta: state.esVisibleAlerta,
+            }));
     
         useEffect(() => {
             const tonalidadesCustom = transformarTonalidades(tonalidadesServer);
             getTonalidades(tonalidadesCustom);
-          }, [getTonalidades, tonalidadesServer]);
-        
-          const { openModal } = useUIStore((state) => ({
-            openModal: state.openModal,
-          }));
+            console.log('Tonalidades obtenidas:', tonalidadesCustom);
+            
+          }, [getTonalidades, tonalidadesServer, esVisibleAlerta]);
 
         
         const updateTonalidad = (key: number) => {
-            console.log(`Tonalidad seleccionada para editar: ${key}`);
-            console.log('Tonalidades disponibles:', tonalidades);
             
             if (key >= 0 && key < tonalidades.length) {
                 const Tonalidadeseleccionada = tonalidades[key].id;
                 selectTonalidad(Tonalidadeseleccionada);
-                console.log(`Tonalidad seleccionada: ${Tonalidadeseleccionada}`);
-                
+
             } 
             openModal();
             siEsEdicion();

@@ -5,6 +5,7 @@ import { useUIStore } from "@/store";
 import { Button } from "@nextui-org/react";
 import { useEffect } from "react";
 import { useTonalidadesStore } from "../../store";
+import { postTonalidadAction } from '../../actions/index';
 
 export const FooterModal =  () => {
     const { openModalConfirmacion, mostrarAlerta } = useUIStore((state) => ({
@@ -15,11 +16,12 @@ export const FooterModal =  () => {
       const { 
         selectedTonalidad,
         updateTonalidad,
-        addTonalidad,
-        esEdicion,  
-        tonalidades 
+        esEdicion,
+        addTonalidad,  
+        tonalidades
         } = useTonalidadesStore((state) => ({
         selectedTonalidad: state.selectedTonalidad,
+
         updateTonalidad: state.updateTonalidad,
         addTonalidad: state.addTonalidad,
         esEdicion: state.esEdicion,
@@ -36,16 +38,18 @@ export const FooterModal =  () => {
       }, [selectedTonalidad, updateTonalidad]);
     
 
-        const submitTonalidad = () => { 
+        const submitTonalidad = async() => { 
                 if (esEdicion) {
                     updateTonalidad(selectedTonalidad.id);
                 }else{
+                    const respuesta = await postTonalidadAction( selectedTonalidad.name);
+                    console.log('respuesta', respuesta);
                     const maxId = tonalidades.reduce((max, item) => (item.id > max ? item.id : max), tonalidades[0].id);
                     addTonalidad({id:maxId +1,name: selectedTonalidad.name, activo: selectedTonalidad.activo});
                 }
             
             mostrarAlerta("Guardado", "Cambios guardados correctamente", "success");
-           
+            
             
           };
 

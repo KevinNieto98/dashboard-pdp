@@ -8,7 +8,6 @@ import { useTonalidadesStore } from "../../store";// Adjust the import path as n
 interface Tonalidad {
     id: number;
     name: string;
-    activo: boolean;
   }
 export const ContenidoModal = () => {
 
@@ -62,9 +61,6 @@ export const ContenidoModal = () => {
   
 
 
-  const activeTonalidades = tonalidades.filter((Tonalidad: Tonalidad) => Tonalidad.activo);
-
-
   return (
     <div className="rounded-lg w-full md:w-full lg:w-full border border-gray-300 shadow-sm p-4 flex overflow-hidden flex-col justify-center py-12">
       <Header className="pt-2" iconName={'FaFile'} titulo={'Detalle de Tonalidad'} />
@@ -82,10 +78,7 @@ export const ContenidoModal = () => {
           value={localName}
           onChange={handleNameChange}
         />
-        <Switch isSelected={isSelected} onValueChange={handleSwitchChange}>
-          Activa
-        </Switch>
-        
+
 
       </div>
     </div>

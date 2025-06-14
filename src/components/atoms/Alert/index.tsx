@@ -40,7 +40,7 @@ export const Alert = ({ title, msg, type = 'success' }: AlertProps) => {
 
 
     return (
-        <div className="fixed inset-0 flex items-start justify-end p-4 z-50">
+        <div className="fixed inset-0 flex items-start justify-end p-4 z-[9999]">
             <div className={`${alertStyles} rounded-b px-4 py-3 shadow-md relative max-w-sm`} role="alert">
                 <div className="flex">
                     <div className="py-1 px-1">
