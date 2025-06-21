@@ -37,7 +37,9 @@ export async function getTonalidadesAction() {
       cache: 'no-store', // Forzar que no se cachee la respuesta
     }
   );
-
+  console.log('res', res  
+  );
+  
   if (!res.ok) {
     console.error('Error al obtener tonalidades:', res.statusText);
     return [];

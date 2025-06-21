@@ -5,12 +5,16 @@ interface State {
   isModalOpen: boolean;
   isModalConfirmacion: boolean;
   esVisibleAlerta: boolean;
+  refresh: boolean;
 
   mostrarAlerta: (titulo: string, mensaje: string, tipo: string)  => void;
   ocultarAlerta: () => void;
 
   openSideMenu: () => void;
   closeSideMenu: () => void;
+  
+  startRefresh: () => void;
+  endRefresh: () => void;
 
   openModal: () => void;
   closeModal: () => void;
@@ -37,10 +41,14 @@ export const useUIStore = create<State>()((set) => ({
   confirmacion: false,
   esVisibleAlerta: false,
   isModalOpen: false,
+  refresh: false,
 
 
   openSideMenu: () => set({ isSideMenuOpen: true }),
   closeSideMenu: () => set({ isSideMenuOpen: false }),
+
+  startRefresh: () => set({ refresh: true }),
+  endRefresh: () => set({ refresh: false }),
 
   mostrarAlerta: (titulo: string, mensaje: string, tipo: string) => set({
      esVisibleAlerta: true, 

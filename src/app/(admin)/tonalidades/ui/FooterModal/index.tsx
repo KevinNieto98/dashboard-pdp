@@ -8,17 +8,18 @@ import { useTonalidadesStore } from "../../store";
 import { postTonalidadAction } from '../../actions/index';
 
 export const FooterModal =  () => {
-    const { openModalConfirmacion, mostrarAlerta } = useUIStore((state) => ({
+    const { openModalConfirmacion, mostrarAlerta, startRefresh, endRefresh } = useUIStore((state) => ({
         openModalConfirmacion: state.openModalConfirmacion,
         mostrarAlerta: state.mostrarAlerta,
+        startRefresh: state.startRefresh,
+        endRefresh: state.endRefresh,
       }));
       
       const { 
         selectedTonalidad,
         updateTonalidad,
         esEdicion,
-        addTonalidad,  
-        tonalidades
+
         } = useTonalidadesStore((state) => ({
         selectedTonalidad: state.selectedTonalidad,
 
@@ -42,10 +43,10 @@ export const FooterModal =  () => {
                 if (esEdicion) {
                     updateTonalidad(selectedTonalidad.id);
                 }else{
-                    const respuesta = await postTonalidadAction( selectedTonalidad.name);
-                    console.log('respuesta', respuesta);
-                    const maxId = tonalidades.reduce((max, item) => (item.id > max ? item.id : max), tonalidades[0].id);
-                    addTonalidad({id:maxId +1,name: selectedTonalidad.name, activo: selectedTonalidad.activo});
+                    await postTonalidadAction( selectedTonalidad.name);
+                    // const maxId = tonalidades.reduce((max, item) => (item.id > max ? item.id : max), tonalidades[0].id);
+                    // addTonalidad({id:maxId +1,name: selectedTonalidad.name, activo: selectedTonalidad.activo});
+                    startRefresh();
                 }
             
             mostrarAlerta("Guardado", "Cambios guardados correctamente", "success");
