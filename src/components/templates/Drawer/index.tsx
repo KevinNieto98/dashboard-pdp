@@ -109,7 +109,7 @@ export const DrawerComponent = () => {
               <span className="ml-3 text-xl text-sky-400">Tonalidades</span>
             </Link>
             <Link
-              href="/lugares"
+              href="/tipoCancion"
               className="flex items-center mt-2 p-2 hover:bg-blue-900 rounded transition-alltext-sky-400"
               onClick={closeSideMenu}
             >
@@ -118,10 +118,10 @@ export const DrawerComponent = () => {
                 className="text-2xl text-sky-400"
               />
               
-              <span className="ml-3 text-xl text-sky-400">Lugares</span>
+              <span className="ml-3 text-xl text-sky-400">Tipos de Canciones</span>
             </Link>
             <Link
-              href="/impuestos-descuentos"
+              href="/tipoCancion"
               className="flex items-center mt-2 p-2 hover:bg-blue-900 rounded transition-all text-sky-400"
               onClick={closeSideMenu}
             >
