@@ -42,18 +42,13 @@ useEffect(() => {
     setLoading(true);
     const run = async () => {
         let tonalidadesCustom = []
-
         // Si hay refresh, pide los datos actualizados y actualiza el store
         if (refresh) {
-            console.log('Refrescando tonalidades...');
             const nuevasTonalidades = await getTonalidadesAction();
-               console.log('Refrescando tonalidades2...');
             tonalidadesCustom = transformarTonalidades(nuevasTonalidades);
             endRefresh();
-               console.log('Refrescando tonalidades3...');
         }else {
                const nuevasTonalidades = await getTonalidadesAction();
-               console.log('Refrescando tonalidades2...');
             tonalidadesCustom = transformarTonalidades(nuevasTonalidades);
             endRefresh();
             
