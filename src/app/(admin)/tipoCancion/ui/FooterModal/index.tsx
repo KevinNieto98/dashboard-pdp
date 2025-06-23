@@ -1,10 +1,9 @@
 'use client'
 
 import { Confirm, Icon } from "@/components";
-import { useUIStore } from "@/store";
+import { useEssentialsStore, useUIStore } from "@/store";
 import { Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useTiposCancionStore } from "../../store";
 import { deleteTipoCancion, postTipoCancion, putTipoCancion } from '../../actions/index';
 
 export const FooterModal = () => {
@@ -17,43 +16,41 @@ export const FooterModal = () => {
     }));
 
     const {
-        selectedTipoCancion,
-        updateTipoCancion,
+        selectedEssential,
+        updateEssential,
         esEdicion,
 
-    } = useTiposCancionStore((state) => ({
-        selectedTipoCancion: state.selectedTipoCancion,
-
-        updateTipoCancion: state.updateTipoCancion,
-
+    } = useEssentialsStore((state) => ({
+        selectedEssential: state.selectedEssential,
+        updateEssential: state.updateEssential,
         esEdicion: state.esEdicion,
-        tiposCancion: state.tiposCancion,
+        essentials: state.essentials,
     }));
 
 
 
 
     useEffect(() => {
-        if (selectedTipoCancion) {
-            updateTipoCancion(selectedTipoCancion.id);
+        if (selectedEssential) {
+            updateEssential(selectedEssential.id);
         }
-    }, [selectedTipoCancion, updateTipoCancion]);
+    }, [selectedEssential, updateEssential]);
 
 
     const submitTipoCancion = async () => {
         if (esEdicion) {
             if(esBorar){
-                await deleteTipoCancion(selectedTipoCancion.id)
+                await deleteTipoCancion(selectedEssential.id)
                 setEsBorrar(false);
             }else {
-                await putTipoCancion(selectedTipoCancion.id, selectedTipoCancion.name);
+                await putTipoCancion(selectedEssential.id, selectedEssential.name);
 
             }
             // const maxId = TiposCancion.reduce((max, item) => (item.id > max ? item.id : max), TiposCancion[0].id);
             // addTipoCancion({id:maxId +1,name: selectedTipoCancion.name, activo: selectedTipoCancion.activo});
             startRefresh();
         } else {
-            await postTipoCancion(selectedTipoCancion.name);
+            await postTipoCancion(selectedEssential.name);
             // const maxId = TiposCancion.reduce((max, item) => (item.id > max ? item.id : max), TiposCancion[0].id);
             // addTipoCancion({id:maxId +1,name: selectedTipoCancion.name, activo: selectedTipoCancion.activo});
             startRefresh();

@@ -1,10 +1,9 @@
 'use client'
 
 import { Confirm, Icon } from "@/components";
-import { useUIStore } from "@/store";
+import { useEssentialsStore, useUIStore } from "@/store";
 import { Button } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useTonalidadesStore } from "../../store";
 import { deleteTonalidad, postTonalidadAction, putTonalidad } from '../../actions/index';
 
 export const FooterModal = () => {
@@ -17,45 +16,41 @@ export const FooterModal = () => {
     }));
 
     const {
-        selectedTonalidad,
-        updateTonalidad,
-        esEdicion,
-
-    } = useTonalidadesStore((state) => ({
-        selectedTonalidad: state.selectedTonalidad,
-
-        updateTonalidad: state.updateTonalidad,
-        addTonalidad: state.addTonalidad,
-        esEdicion: state.esEdicion,
-        tonalidades: state.tonalidades,
+        selectedEssential,
+        updateEssential,
+        esEdicion
+    } = useEssentialsStore((state) => ({
+        selectedEssential: state.selectedEssential,
+        updateEssential: state.updateEssential,
+        esEdicion: state.esEdicion
     }));
 
 
 
 
     useEffect(() => {
-        if (selectedTonalidad) {
-            updateTonalidad(selectedTonalidad.id);
+        if (selectedEssential) {
+            updateEssential(selectedEssential.id);
         }
-    }, [selectedTonalidad, updateTonalidad]);
+    }, [selectedEssential, updateEssential]);
 
 
     const submitTonalidad = async () => {
         if (esEdicion) {
             if(esBorar){
-                await deleteTonalidad(selectedTonalidad.id)
+                await deleteTonalidad(selectedEssential.id)
                 setEsBorrar(false);
             }else {
-                await putTonalidad(selectedTonalidad.id, selectedTonalidad.name);
+                await putTonalidad(selectedEssential.id, selectedEssential.name);
 
             }
             // const maxId = tonalidades.reduce((max, item) => (item.id > max ? item.id : max), tonalidades[0].id);
-            // addTonalidad({id:maxId +1,name: selectedTonalidad.name, activo: selectedTonalidad.activo});
+            // addTonalidad({id:maxId +1,name: selectedEssential.name, activo: selectedEssential.activo});
             startRefresh();
         } else {
-            await postTonalidadAction(selectedTonalidad.name);
+            await postTonalidadAction(selectedEssential.name);
             // const maxId = tonalidades.reduce((max, item) => (item.id > max ? item.id : max), tonalidades[0].id);
-            // addTonalidad({id:maxId +1,name: selectedTonalidad.name, activo: selectedTonalidad.activo});
+            // addTonalidad({id:maxId +1,name: selectedEssential.name, activo: selectedEssential.activo});
             startRefresh();
         }
 

@@ -1,12 +1,11 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { useUIStore } from "@/store";
+import { useEssentialsStore, useUIStore } from "@/store";
 import { Icon, ModalEdit, TablaDinamica } from "@/components";
 import { Button, Spinner } from "@nextui-org/react";
 import { ContenidoModal } from "../ModalContent";
 import { FooterModal } from "../FooterModal";
-import { useTiposCancionStore } from "../../store";
 import { getTiposCancionAction } from "../../actions";
 
 export const TipoCancionContent = () => {
@@ -18,16 +17,15 @@ export const TipoCancionContent = () => {
             name: item.nombre_tono,
         }));
     };
-    const { getTiposCancion, tiposCancion, selecttipoCancion, siEsEdicion, noEsEdicion } = useTiposCancionStore((state) => ({
-        getTiposCancion: state.getTiposCancion,
-        tiposCancion: state.tiposCancion,
-        selecttipoCancion: state.selectTipoCancion,
+    const { getEssentials, essentials, selectedEssential, siEsEdicion, noEsEdicion } = useEssentialsStore((state) => ({
+        getEssentials: state.getEssentials,
+        essentials: state.essentials,
+        selectedEssential: state.selectedEssential,
         siEsEdicion: state.siEsEdicion,
         noEsEdicion: state.noEsEdicion,
     }));
 
     const { openModal,
-        esVisibleAlerta,
         refresh,
         endRefresh
     } = useUIStore((state) => ({
@@ -53,7 +51,7 @@ useEffect(() => {
             endRefresh();
             
         }
-        getTiposCancion(TiposCancionCustom);
+        getEssentials(TiposCancionCustom);
         setLoading(false);
     };
 
@@ -64,9 +62,9 @@ useEffect(() => {
 
 const updatetipoCancion = (key: number) => {
 
-        if (key >= 0 && key < tiposCancion.length) {
-            const TiposCancioneleccionada = tiposCancion[key].id;
-            selecttipoCancion(TiposCancioneleccionada);
+        if (key >= 0 && key < essentials.length) {
+            const TiposCancioneleccionada = essentials[key].id;
+            selectedEssential(TiposCancioneleccionada);
 
         }
         openModal();
@@ -86,7 +84,7 @@ const updatetipoCancion = (key: number) => {
                 <div className="p-4">
 
                     <TablaDinamica
-                        data={tiposCancion}
+                        data={essentials}
                         tieneFuncion={true}
                         needOpenModal={true}
                         funcionBoton={updatetipoCancion}

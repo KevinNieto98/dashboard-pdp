@@ -3,7 +3,7 @@
 import { Header } from "@/components";
 import {   Input,  Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useTonalidadesStore } from "../../store";// Adjust the import path as necessary
+import { useEssentialsStore } from "@/store";
 
 interface Tonalidad {
     id: number;
@@ -13,21 +13,17 @@ export const ContenidoModal = () => {
 
 
   const { 
-    selectedTonalidad, 
-    updateSelectedTonalidad, 
-    esEdicion ,
-    tonalidades
-  } = useTonalidadesStore((state) => ({
-    selectedTonalidad: state.selectedTonalidad,
-    updateSelectedTonalidad: state.updateSelectedTonalidad,
-    esEdicion: state.esEdicion,
-    tonalidades: state.tonalidades,
-
-
+    selectedEssential, 
+    updateSelectedEssential, 
+    esEdicion 
+  } = useEssentialsStore((state) => ({
+    selectedEssential: state.selectedEssential,
+    updateSelectedEssential: state.updateSelectedEssential,
+    esEdicion: state.esEdicion
   }));
 
 
-  const { id, name, activo } = selectedTonalidad;
+  const { id, name, activo } = selectedEssential;
 
   const [localName, setLocalName] = useState('');
   const [isSelected, setIsSelected] = useState(false);
@@ -48,14 +44,14 @@ export const ContenidoModal = () => {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setLocalName(e.target.value);
-      updateSelectedTonalidad({ ...selectedTonalidad, name: e.target.value });
+      updateSelectedEssential({ ...selectedEssential, name: e.target.value });
 
 
   };
 
   const handleSwitchChange = (value: boolean) => {
       setIsSelected(value);
-      updateSelectedTonalidad({ ...selectedTonalidad, activo: value });
+      updateSelectedEssential({ ...selectedEssential, activo: value });
   };
 
   

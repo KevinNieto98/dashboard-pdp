@@ -3,7 +3,7 @@
 import { Header } from "@/components";
 import {   Input,  Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useTiposCancionStore } from "../../store";// Adjust the import path as necessary
+import { useEssentialsStore } from "@/store";
 
 interface TipoCancion {
     id: number;
@@ -13,52 +13,44 @@ export const ContenidoModal = () => {
 
 
   const { 
-    selectedTipoCancion, 
+    selectedEssential, 
     updateSelectedTipoCancion, 
-    esEdicion ,
-    TiposCancion
-  } = useTiposCancionStore((state) => ({
-    selectedTipoCancion: state.selectedTipoCancion,
-    updateSelectedTipoCancion: state.updateSelectedTipoCancion,
-    esEdicion: state.esEdicion,
-    TiposCancion: state.tiposCancion,
+    esEdicion 
+  } = useEssentialsStore((state) => ({
+    selectedEssential: state.selectedEssential,
+    updateSelectedTipoCancion: state.updateSelectedEssential,
+    esEdicion: state.esEdicion
 
 
   }));
 
 
-  const { id, name, activo } = selectedTipoCancion;
+  const { id, name, activo } = selectedEssential;
 
   const [localName, setLocalName] = useState('');
-  const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
     if (esEdicion) {
       setLocalName(name);
-      setIsSelected(activo);
+
     }
   }, [esEdicion, name, activo]);
 
   useEffect(() => {
     if (!esEdicion) {
       setLocalName('');
-      setIsSelected(false);
+  
     }
   }, []);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setLocalName(e.target.value);
-      updateSelectedTipoCancion({ ...selectedTipoCancion, name: e.target.value });
+      updateSelectedTipoCancion({ ...selectedEssential, name: e.target.value });
 
 
   };
 
-  const handleSwitchChange = (value: boolean) => {
-      setIsSelected(value);
-      updateSelectedTipoCancion({ ...selectedTipoCancion, activo: value });
-  };
 
-  
 
 
   return (

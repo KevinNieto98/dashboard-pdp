@@ -1,12 +1,11 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { useUIStore } from "@/store";
+import { useEssentialsStore, useUIStore } from "@/store";
 import { Icon, ModalEdit, TablaDinamica } from "@/components";
 import { Button, Spinner } from "@nextui-org/react";
 import { ContenidoModal } from "../ModalContent";
 import { FooterModal } from "../FooterModal";
-import { useTonalidadesStore } from "../../store";
 import { getTonalidadesAction } from "../../actions";
 
 export const TonalidadesContent = () => {
@@ -18,16 +17,15 @@ export const TonalidadesContent = () => {
             name: item.nombre_tono,
         }));
     };
-    const { getTonalidades, tonalidades, selectTonalidad, siEsEdicion, noEsEdicion } = useTonalidadesStore((state) => ({
-        getTonalidades: state.getTonalidades,
-        tonalidades: state.tonalidades,
-        selectTonalidad: state.selectTonalidad,
+    const { getEssentials, essentials, selectEssential, siEsEdicion, noEsEdicion } = useEssentialsStore((state) => ({
+        getEssentials: state.getEssentials,
+        essentials: state.essentials,
+        selectEssential: state.selectEssential,
         siEsEdicion: state.siEsEdicion,
         noEsEdicion: state.noEsEdicion,
     }));
 
     const { openModal,
-        esVisibleAlerta,
         refresh,
         endRefresh
     } = useUIStore((state) => ({
@@ -53,7 +51,7 @@ useEffect(() => {
             endRefresh();
             
         }
-        getTonalidades(tonalidadesCustom);
+        getEssentials(tonalidadesCustom);
         setLoading(false);
     };
 
@@ -64,9 +62,9 @@ useEffect(() => {
 
 const updateTonalidad = (key: number) => {
 
-        if (key >= 0 && key < tonalidades.length) {
-            const Tonalidadeseleccionada = tonalidades[key].id;
-            selectTonalidad(Tonalidadeseleccionada);
+        if (key >= 0 && key < essentials.length) {
+            const Tonalidadeseleccionada = essentials[key].id;
+            selectEssential(Tonalidadeseleccionada);
 
         }
         openModal();
@@ -86,7 +84,7 @@ const updateTonalidad = (key: number) => {
                 <div className="p-4">
 
                     <TablaDinamica
-                        data={tonalidades}
+                        data={essentials}
                         tieneFuncion={true}
                         needOpenModal={true}
                         funcionBoton={updateTonalidad}

@@ -14,15 +14,9 @@ export default async function TipoCancionPage() {
             <AlertRegion />
             <Title
                 iconName={"FaTag"}
-                titulo="TipoCancion"
+                titulo="Tipos de Cancion"
             />
             <Content>
-
-                <Text
-                    className=""
-                    >
-                    Pagina de Control de Tipos  de Canciones
-                </Text>
                 <TipoCancionContent
                     
                 />
