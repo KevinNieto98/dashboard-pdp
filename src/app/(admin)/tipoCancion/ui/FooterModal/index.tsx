@@ -43,7 +43,7 @@ export const FooterModal = () => {
                 await deleteTipoCancion(selectedEssential.id)
                 setEsBorrar(false);
             }else {
-                await putTipoCancion(selectedEssential.id, selectedEssential.name);
+                await putTipoCancion(selectedEssential.id, selectedEssential.name, selectedEssential.activo);
 
             }
             // const maxId = TiposCancion.reduce((max, item) => (item.id > max ? item.id : max), TiposCancion[0].id);

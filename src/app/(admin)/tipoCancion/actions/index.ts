@@ -29,7 +29,7 @@ export async function getTonalidadesAction() {
 
 export async function getTiposCancionAction() {
   const res = await fetch(
-    'https://eupzkiaqefwxnkkvetol.supabase.co/rest/v1/tbl_tonalidades?select=*&order=id_tonalidad.asc',
+    'https://eupzkiaqefwxnkkvetol.supabase.co/rest/v1/tbl_tipo_cancion?select=*',
     {
       headers: {
         apikey: process.env.NEXT_PUBLIC_SUPABASE_KEY!,
@@ -44,15 +44,15 @@ export async function getTiposCancionAction() {
     return [];
   }
 
-  const tbl_tonalidades = await res.json();
-  return tbl_tonalidades;
+  const tbl_tipo_cancion = await res.json();
+  return tbl_tipo_cancion;
 }
 
 export async function postTipoCancion( name: string) {
-  const { data, error } = await supabase
-  .from('tbl_tonalidades')
+const { data, error } = await supabase
+  .from('tbl_tipo_cancion')
   .insert([
-    { nombre_tono: name, id_grupo: 1  },
+    { nombre_tipo: name, activo: true , id_grupo: 1  } // Asegúrate de que el id_grupo sea correcto según tu esquema,
   ])
   .select()
 
@@ -64,13 +64,14 @@ export async function postTipoCancion( name: string) {
   return data
 }
 
- export async function putTipoCancion( id: number, name: string) {
+ export async function putTipoCancion( id: number, name: string, activo: boolean) {
 
- const { data, error } = await supabase
-   .from('tbl_tonalidades')
-   .update({'nombre_tono' : name  })
-   .eq('id_tonalidad',Number(id) )
-   .select()
+const { data, error } = await supabase
+  .from('tbl_tipo_cancion')
+  .update({ 'nombre_tipo': name, 'activo': activo })
+  .eq('id_tipo', Number(id))
+  .select()
+
 
    if (error) {
      console.error('Error al obtener tonalidades:', error.message)
@@ -81,10 +82,12 @@ export async function postTipoCancion( name: string) {
  }
 
  export async function deleteTipoCancion( id: number,) {
+  
    await supabase
-  .from('tbl_tonalidades')
+  .from('tbl_tipo_cancion')
   .delete()
-  .eq('id_tonalidad', id)
+  .eq('id_tipo', id)
+
 
 
  }

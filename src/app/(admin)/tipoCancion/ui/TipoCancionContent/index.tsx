@@ -13,14 +13,15 @@ export const TipoCancionContent = () => {
 
     const transformarTiposCancion = (TiposCancionServer: any[]) => {
         return TiposCancionServer.map(item => ({
-            id: item.id_tipoCancion,
-            name: item.nombre_tono,
+            id: item.id_tipo,
+            name: item.nombre_tipo,
+            activo: item.activo
         }));
     };
-    const { getEssentials, essentials, selectedEssential, siEsEdicion, noEsEdicion } = useEssentialsStore((state) => ({
+    const { getEssentials, essentials, selectEssential, siEsEdicion, noEsEdicion } = useEssentialsStore((state) => ({
         getEssentials: state.getEssentials,
         essentials: state.essentials,
-        selectedEssential: state.selectedEssential,
+        selectEssential: state.selectEssential,
         siEsEdicion: state.siEsEdicion,
         noEsEdicion: state.noEsEdicion,
     }));
@@ -43,10 +44,14 @@ useEffect(() => {
         // Si hay refresh, pide los datos actualizados y actualiza el store
         if (refresh) {
             const nuevasTiposCancion = await getTiposCancionAction();
+            console.log("nuevasTiposCancion", nuevasTiposCancion)
             TiposCancionCustom = transformarTiposCancion(nuevasTiposCancion);
+            console.log("TiposCancionCustom", TiposCancionCustom);
+            
             endRefresh();
         }else {
                const nuevasTiposCancion = await getTiposCancionAction();
+               console.log("nuevasTiposCancion", nuevasTiposCancion)
             TiposCancionCustom = transformarTiposCancion(nuevasTiposCancion);
             endRefresh();
             
@@ -64,7 +69,7 @@ const updatetipoCancion = (key: number) => {
 
         if (key >= 0 && key < essentials.length) {
             const TiposCancioneleccionada = essentials[key].id;
-            selectedEssential(TiposCancioneleccionada);
+            selectEssential(TiposCancioneleccionada);
 
         }
         openModal();
@@ -105,7 +110,7 @@ const updatetipoCancion = (key: number) => {
                     />
                     <ModalEdit
                         esEjemplo={false}
-                        titulo="Mantenimiento de TiposCancion"
+                        titulo="Mantenimiento de Tipos de Cancion"
                         children={<ContenidoModal />}
                         footer={<FooterModal />}
                     />

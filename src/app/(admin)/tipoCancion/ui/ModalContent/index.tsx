@@ -1,37 +1,38 @@
 'use client'
 
 import { Header } from "@/components";
-import {   Input,  Switch } from "@nextui-org/react";
+import { Input, Switch } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useEssentialsStore } from "@/store";
 
 interface TipoCancion {
-    id: number;
-    name: string;
-  }
+  id: number;
+  name: string;
+  activo: boolean;
+}
 export const ContenidoModal = () => {
-
-
-  const { 
-    selectedEssential, 
-    updateSelectedTipoCancion, 
-    esEdicion 
+  
+  const {
+    selectedEssential,
+    updateSelectedTipoCancion,
+    esEdicion
   } = useEssentialsStore((state) => ({
     selectedEssential: state.selectedEssential,
     updateSelectedTipoCancion: state.updateSelectedEssential,
     esEdicion: state.esEdicion
-
-
+    
+    
   }));
-
-
-  const { id, name, activo } = selectedEssential;
-
+  
+  
+  const { id, name, activo } = selectedEssential;  
   const [localName, setLocalName] = useState('');
+  const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
     if (esEdicion) {
       setLocalName(name);
+      setIsSelected(Boolean(activo));
 
     }
   }, [esEdicion, name, activo]);
@@ -39,17 +40,21 @@ export const ContenidoModal = () => {
   useEffect(() => {
     if (!esEdicion) {
       setLocalName('');
-  
+      setIsSelected(false);
     }
   }, []);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setLocalName(e.target.value);
-      updateSelectedTipoCancion({ ...selectedEssential, name: e.target.value });
+    setLocalName(e.target.value);
+    updateSelectedTipoCancion({ ...selectedEssential, name: e.target.value });
 
 
   };
 
+  const handleSwitchChange = (value: boolean) => {
+    setIsSelected(value);
+    updateSelectedTipoCancion({ ...selectedEssential, activo: value });
+  };
 
 
 
@@ -70,6 +75,10 @@ export const ContenidoModal = () => {
           value={localName}
           onChange={handleNameChange}
         />
+
+        <Switch isSelected={!!isSelected} onValueChange={handleSwitchChange}>
+          Activo
+        </Switch>
 
 
       </div>
